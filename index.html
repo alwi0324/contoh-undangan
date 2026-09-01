@@ -1,448 +1,463 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="id" class="scroll-smooth">
   <head>
-    <meta charset="utf-8" />
-    <meta name="theme-color" content="#BC8887" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Wedding Nila & Indra</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Undangan Pernikahan - Kiki & Jaka</title>
 
-    <meta property="og:title" content="Undangan Pernikahan Nila & Indra - Jumat, 27 Januari 2023">
-    <meta property="og:description" content="Undangan Pernikahan Nila & Indra - Jumat, 27 Januari 2023 di Trajeng, Panggungrejo Pasuruan">
-    <meta property="og:locale" content="id_ID" />
-    <meta name="twitter:card" content="summary_large_image">
-    <!-- Bulma Version 0.8.x-->
-    <link rel="stylesheet" href="https://unpkg.com/bulma@0.8.0/css/bulma.min.css" />
-    <link rel="stylesheet" href="https://unpkg.com/bulma-tooltip@0.1.5/dist/bulma-tooltip.min.css" />
-    <link rel="stylesheet" type="text/css" href="menikah.css" />
-    <link rel="stylesheet" type="text/css" href="jquery.countdown.css" />
-    <script
-      src="https://kit.fontawesome.com/2828f7885a.js"
-      integrity="sha384-WAsFbnLEQcpCk8lM1UTWesAf5rGTCvb2Y+8LvyjAAcxK1c3s5c0L+SYOgxvc6PWG"
-      crossorigin="anonymous"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="jquery.coundown.js"></script>
-    <link rel="icon" type="image/png" href="favicon.png" />
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23064379-20"></script>
-    <!-- Begin Script for Countdown -->
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-      gtag('config', 'UA-23064379-20');
-    </script>
-    <!-- End Script for Countdown -->
+    <!-- AOS Animation CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 
-    <!-- Github Button -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Google Fonts: Great Vibes (Sambung) & Lora (Serif/Teks) -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Lora", serif;
+        background-color: #e5e5f7;
+      }
+      .font-script {
+        font-family: "Great Vibes", cursive;
+      }
+
+      /* Tema Warna Kustom */
+      .bg-theme-light {
+        background-color: #f7f3ef;
+      }
+      .bg-theme-dark {
+        background-color: #3e2723;
+      }
+      .text-theme-dark {
+        color: #5c4a3d;
+      }
+      .text-theme-gold {
+        color: #b38b59;
+      }
+
+      /* Background Pattern/Gambar (Ganti URL dengan gambar asli Anda) */
+      .bg-floral {
+        /* Placeholder background, ganti dengan link gambar merak/rumah dari asset Anda */
+        background-image:
+          url("https://www.transparenttextures.com/patterns/aged-paper.png"),
+          linear-gradient(to bottom, #f7f3ef, #e3d5ca);
+        background-size: cover;
+        background-position: center;
+      }
+
+      /* Navigasi Bawah Transisi */
+      #bottom-nav {
+        transition:
+          transform 0.5s ease-in-out,
+          opacity 0.5s;
+        transform: translateY(100%);
+        opacity: 0;
+      }
+      #bottom-nav.show {
+        transform: translateY(0);
+        opacity: 1;
+      }
+
+      /* Sembunyikan scrollbar tapi tetap bisa scroll */
+      ::-webkit-scrollbar {
+        width: 0px;
+      }
+    </style>
   </head>
-
-  <body>
-    <!-- Begin Preloader -->
-    <div class="preloader-wrapper">
-      <div class="preloader">
-        <img src="favicon.png" alt="Flower" />
-      </div>
-    </div>
-    <!-- End Preloader-->
-    <!-- Begin Header -->
-    <div class="header-wrapper" id="home">
-      <!-- Begin Hero -->
-      <section class="hero is-large">
-        
-        <div class="hero-body">
-          <div class="container has-text-centered">
-            <h1 class="subtitle">Undangan Pernikahan</h1>
-            <h2 class="title">Nila</h2>
-            <h2 class="title">&</h2>
-            <h2 class="title">Indra</h2>
-            <h4 class="subtitle tempatwaktu">
-              
-                Jumat, 27 Januari 2023 
-              
-            </h4>
-          </div>
-          <!-- Start Countdown -->       
-          <div>
-            <ul id="hitungmundur" >
-              <li><span class="days">00</span><p class="days_text">Hari</p></li>
-              <li class="separator">:</li>
-              <li><span class="hours">00</span><p class="hours_text">Jam</p></li>
-              <li class="separator">:</li>
-              <li><span class="minutes">00</span><p class="minutes_text">Menit</p></li>
-              <li class="separator">:</li>
-              <li><span class="seconds">00</span><p class="seconds_text">Detik</p></li>
-            </ul>
-            <div class="spasi">
-            </div>
-
-            <div class="container box">
-              <h4 style="font-family: Arial, Helvetica, sans-serif;">
-                Kepada
-                <br>
-                Bapak/Ibu/Saudara/i
-                <br><br>
-                <span class="kepada" style="font-family: 'Dancing Script';">Ahmad Muchyidin</span>
-                <br>
-                di Tempat
-              </h4>
-            </div>
-
-
-            <script type="text/javascript">
-              var now = new Date();
-              var day = now.getDate();
-              var month = now.getMonth() + 1;
-              var year = now.getFullYear() + 1;
-          
-              var nextyear = month + '/' + day + '/' + year + ' 07:00:00';
-              var harih = '01/27/2023 07:00:00';
-
-              $('#hitungmundur').countdown({
-                date: harih,
-                offset: +7,
-                day: 'Hari',
-                days: 'Hari'
-              }, function () {
-                alert('Done!');
-              });
-            </script>  
-          </div>
-          <!-- End Countdown -->
-        </div>
-        <!-- End Hero Content-->
-        <!-- Begin Hero Menu -->
-        <!-- <div class="hero-foot ">
-          <div class="hero-foot--wrapper">
-            <div class="columns">
-              <div class="column is-12 hero-menu-desktop has-text-centered">
-                <ul>
-                  <li class="is-active">
-                    <a href="#home">Home</a>
-                  </li>
-                  <li>
-                    <a href="#Waktu">Waktu</a>
-                  </li>
-                  <li>
-                    <a href="#lokasi">Lokasi</a>
-                  </li>
-                  <li>
-                    <a href="#tentang-sherly-daeng">Tentang Sherly & Daeng</a>
-                  </li>
-
-                  <li>
-                    <a href="#rsvp">RSVP</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div> -->
-        </div>
-        <!-- End Hero Menu -->
-      </section>
-      <!-- End Hero -->
-    </div>
-    <!-- End Header -->
-
-    <!-- Begin Main Content -->
-    <div class="main-content">
-    <!-- Begin regular-section-->
-     <section class="section-light no-padding-top regular-section has-text-centered has-vertically-aligned-content" id="regular-section">
-        
-        <div data-aos="fade-up" data-aos-easing="linear">
-          <img src="bismillah.png" class="bismillah has-text-centered" alt="Bismillahirrahmaanirrahiim">
+  <body class="overflow-hidden antialiased text-gray-800">
+    <!-- Wadah Mobile (Membatasi lebar di desktop agar tetap terlihat seperti HP) -->
+    <div
+      class="max-w-md mx-auto bg-theme-light min-h-screen relative shadow-2xl overflow-x-hidden"
+    >
+      <!-- ================= COVER SECTION (HALAMAN DEPAN) ================= -->
+      <section
+        id="cover"
+        class="relative w-full h-screen flex flex-col items-center justify-between py-12 px-6 bg-floral text-center z-50"
+      >
+        <div class="mt-10" data-aos="fade-down" data-aos-duration="1500">
+          <p class="text-xs tracking-[0.2em] uppercase text-theme-dark mb-4">
+            The Wedding Of
+          </p>
+          <h1 class="text-6xl font-script text-theme-gold mb-4">
+            Kiki<br />&<br />Jaka
+          </h1>
+          <p class="text-sm font-medium text-theme-dark">
+            JUMAT, 23 OKTOBER 2026
+          </p>
         </div>
 
-        <p data-aos="fade-up" data-aos-easing="linear" style="font-family: Dancing Script; font-size: 25px">
-          “Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang. Sungguh, pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir.”
-          <br>
-          <b>(Q.S. Ar-Ruum : 21)</b>
-        </p>
-        <br><br>
-        <p class="bodytext" data-aos="fade-up" data-aos-easing="linear">
-          Assalamu'alaikum Warahmatullahi Wabarakatuh.
-          <br />
-          Dengan memohon Rahmat dan Ridha Allah <i>subhanahu wa ta'ala</i>,
-          <br />
-          kami bermaksud mengundang Bapak/Ibu/Saudara/i pada acara pernikahan kami
-        </p>
+        <!-- Kotak Kaca "Kepada Yth" -->
+        <div
+          class="bg-white/40 backdrop-blur-md border border-white/50 rounded-2xl p-6 w-full max-w-[85%] shadow-lg mb-10"
+          data-aos="fade-up"
+          data-aos-duration="1500"
+        >
+          <p class="text-sm text-theme-dark mb-1">Yth.</p>
+          <p class="text-sm text-theme-dark mb-2">Bapak/Ibu/Saudara/i</p>
+          <!-- Nama Tamu akan diisi oleh JS -->
+          <h2
+            id="guest-name-display"
+            class="text-2xl font-bold text-theme-dark mb-3 border-b border-gray-400/50 pb-2 inline-block"
+          >
+            Nama Tamu
+          </h2>
+          <p class="text-xs text-theme-dark mb-5 italic">
+            Tanpa mengurangi rasa hormat, kami mengundang Anda untuk hadir di
+            acara pernikahan kami.
+          </p>
 
-        <span class="space40px"></span>
-        <span class="space40px"></span>
-
-        <div data-aos="fade-up" data-aos-easing="linear">
-          <div class="nama-lengkap" >
-            Nila Azmi Ismail, S.Pd.
-          </div>
-          Putri pertama dari Bapak H. Moh. Ismail, S.Ag., M.Pd.I dan Ibu Hj. Istibsyaroh
-          <br>
-          <div class="ampersand">&</div>
-          <div class="nama-lengkap">
-            Indra Dwi Wicaksono, S.Tr.Stat.
-          </div>
-          Putra kedua dari Bapak Djoko Soeprapto Widodo dan Ibu Kustiningsih
-           
-        </div>
-        <span class="space40px"></span>
-        <div data-aos="fade-up" data-aos-easing="linear">
-          <img src="divider-leaves.png" class="divider has-text-centered" alt="~~~">
-        </div>
-        <span class="space40px"></span>
-        <span class="space40px"></span>
-      </section>
-      <!-- End regular-section-->    
-      
-      <!-- Begin Waktu Section -->
-      <section class="section-dark" id="Waktu">
-        <div class="container">
-
-          <div class="column is-12 regular-section" data-aos="fade-up" data-aos-easing="linear">
-            <h1 class="title has-text-centered section-title">Waktu</h1>
-          </div>
-          <div class="columns is-multiline" data-aos="fade-up" data-aos-easing="linear">
-            <div
-              class="column is-4 has-vertically-aligned-content">
-            
-              <p class="is-larger has-text-centered">
-                  <div class="waktu tanggal-hari has-text-centered">Jumat</div> 
-                  <div class="waktu tanggal-angka has-text-centered">27</div>
-                  <div class="waktu tanggal-bulan has-text-centered">Januari 2023</div>
-              </p>
-            
-            </div>
-            <div class="column is-4 has-vertically-aligned-content">
-            
-              <p class="waktu is-larger has-text-centered">
-                Akad Nikah:
-                <br>
-                <strong>07.00 WIB</strong>
-              </p>
-              <br>
-              <p class="waktu is-larger has-text-centered">
-                Resepsi:
-                <br>
-                <strong>13.30 WIB - 16.30 WIB</strong>
-              </p>
-            
-            </div>
-
-            <div class="column is-4 has-vertically-aligned-content">
-              
-              <h1 class="waktu is-larger has-text-centered">
-                <strong>Di Kediaman Mempelai Wanita</strong>
-                <br>
-                <p>
-                  Jln. Sulawesi Utara No. 31, Trajeng, 
-                  <br>
-                  Kec. Panggungrejo, Kota Pasuruan, Jawa Timur
-                  <br>
-                </p>
-              </h1>
-              
-              
-            </div>
-            <div data-aos="fade-up" data-aos-easing="linear">
-              <hr style="border: 1px solid black;">
-            </div>
-
-          </div>
-          
-          <div class="columns is-multiline" data-aos="fade-up" data-aos-easing="linear">
-            <div
-              class="column is-4 has-vertically-aligned-content">
-            
-              <p class="is-larger has-text-centered">
-                  <div class="waktu tanggal-hari has-text-centered">Ahad</div> 
-                  <div class="waktu tanggal-angka has-text-centered">29</div>
-                  <div class="waktu tanggal-bulan has-text-centered">Januari 2023</div>
-              </p>
-            
-            </div>
-            <div class="column is-4 has-vertically-aligned-content">
-              <p class="waktu is-larger has-text-centered">
-                Unduh Mantu:
-                <br>
-                <strong>10.00 WIB - 13.00 WIB</strong>
-              </p>
-            
-            </div>
-
-            <div class="column is-4 has-vertically-aligned-content">
-              
-              <h1 class="waktu is-larger has-text-centered">
-                <strong>Di Kediaman Mempelai Pria</strong>
-                <br>
-                <p>
-                  Jln. Pucangan 1C, Purworejo, 
-                  <br>
-                  Kec. Purworejo, Kota Pasuruan, Jawa Timur
-                  <br>
-                </p>
-              </h1>
-              
-              
-            </div>
-
-          </div>
-        </div>
-        <div class="space40px"></div>
-        <div class="main-content has-text-centered" data-aos="fade-up" data-aos-easing="linear">
-          <a href="https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=NzBiYjN1bzk2ZDNsbHQ3ZnVldmw4OGw5bGwgaW5kcmF0ZGJwYXN1cnVhbkBt&tmsrc=indratdbpasuruan%40gmail.com" target="_blank" class="button has-tooltip btn-cta" data-tooltip="Add to Calendar" target="_blank" data-aos="zoom-in">
-            <i class="far fa-calendar-plus"></i>
-            &nbsp;&nbsp;Google Calendar
-          </a>
+          <button
+            onclick="bukaUndangan()"
+            class="bg-white/80 hover:bg-white text-theme-dark font-semibold py-2 px-6 rounded-full shadow-md text-sm transition-all border border-gray-300 flex items-center justify-center mx-auto gap-2"
+          >
+            <i class="fa-solid fa-envelope-open-text"></i> Buka Undangan
+          </button>
         </div>
       </section>
-      <!-- End Waktu Content -->
 
-      <!-- Begin Lokasi Section -->
-      <section class="section-darker" id="lokasi" >
-        <div class="container">
-          <div class="column is-12 regular-section" data-aos="fade-up" data-aos-easing="linear">
-            <h1 class="title has-text-centered section-title">Lokasi</h1>
-            <p class="tempat is-larger has-text-centered">
-              <strong>Kediaman Mempelai Wanita</strong>
-              <br>
-              Jln. Sulawesi Utara No. 31, Trajeng, 
-              <br>
-              Kec. Panggungrejo, Kota Pasuruan, Jawa Timur
-              <br>
+      <!-- ================= KONTEN UNDANGAN (AWALNYA TERSEMBUNYI DI BAWAH) ================= -->
+      <div id="main-content" class="pb-24">
+        <!-- Opening / Quote Section -->
+        <section
+          id="opening"
+          class="pt-20 pb-12 px-6 text-center bg-theme-light"
+        >
+          <div data-aos="zoom-in" data-aos-duration="1000">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/2/27/Basmala.svg"
+              alt="Bismillah"
+              class="w-40 mx-auto mb-6 opacity-70"
+            />
+            <p class="text-sm text-theme-dark leading-relaxed">
+              "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan
+              untukmu isteri-isteri dari jenismu sendiri, supaya kamu cenderung
+              dan merasa tenteram kepadanya, dan dijadikan-Nya diantaramu rasa
+              kasih dan sKiki."
+            </p>
+            <p class="text-xs font-bold mt-3 text-theme-dark">
+              (QS. Ar-Rum: 21)
             </p>
           </div>
-          <div class="section-map" data-aos="fade-up" data-aos-easing="linear">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3954.448715817604!2d112.9091584187876!3d-7.634797605797836!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7c6773d298f57%3A0x89171542504fe249!2sRoudlotul%20Jannah!5e0!3m2!1sid!2sid!4v1671181401282!5m2!1sid!2sid" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+        </section>
+
+        <!-- Mempelai Section -->
+        <section id="couple" class="py-12 px-6 text-center bg-floral">
+          <div
+            class="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-sm"
+            data-aos="fade-up"
+          >
+            <p class="text-sm text-theme-dark mb-8">
+              Tanpa mengurangi rasa hormat, kami bermaksud mengundang bapak /
+              ibu / saudara/i untuk berhadir pada acara kami.
+            </p>
+
+            <!-- Mempelai Wanita -->
+            <div data-aos="fade-right">
+              <h2 class="text-4xl font-script text-theme-gold mb-3">
+                Nurus Shubhiyyah Ismail
+              </h2>
+              <p class="text-xs text-theme-dark mb-4 leading-relaxed">
+                Putri dari Bapak Moh. Ismail & Ibu Istibsyaroh.<br />
+              </p>
+              <a
+                href="#"
+                class="inline-block bg-theme-dark text-white text-xs px-4 py-1.5 rounded-full"
+                ><i class="fa-brands fa-instagram"></i> instagram</a
+              >
+            </div>
+
+            <!-- Divider -->
+            <div
+              class="my-8 text-theme-gold text-2xl flex justify-center items-center gap-2"
+            >
+              <i class="fa-solid fa-leaf"></i>
+              <span class="font-script text-3xl">&</span>
+              <i class="fa-solid fa-leaf"></i>
+            </div>
+
+            <!-- Mempelai Pria -->
+            <div data-aos="fade-left">
+              <h2 class="text-4xl font-script text-theme-gold mb-3">
+                Muhammad Zakaria
+              </h2>
+              <p class="text-xs text-theme-dark mb-4 leading-relaxed">
+                Putra dari Bapak Fulan & Ibu Fulanah.<br />
+              </p>
+              <a
+                href="#"
+                class="inline-block bg-theme-dark text-white text-xs px-4 py-1.5 rounded-full"
+                ><i class="fa-brands fa-instagram"></i> instagram</a
+              >
+            </div>
           </div>
-          <div class="space40px"></div>
-          <div class="has-text-centered" data-aos="fade-up" data-aos-easing="linear">
-            <a href="https://www.google.com/maps/dir//Roudlotul+Jannah,+Jalan+Sulawesi+Utara,+Ngemplakrejo,+Kota+Pasuruan,+Jawa+Timur/@-7.6329455,112.8755062,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x2dd7c6773d298f57:0x89171542504fe249!2m2!1d112.9104859!2d-7.6330135?hl=en" class="button btn-cta" target="_blank" data-aos="zoom-in">
-              <i class="far fa-directions"></i>
-              &nbsp;&nbsp;Lihat rute
-            </a>
-          </div>
-          
-          <div data-aos="fade-up" data-aos-easing="linear">
-            <hr style="border: 0.5px solid black;">
+        </section>
+
+        <!-- Acara Section (Bentuk Melengkung / Arch) -->
+        <section id="event" class="py-12 px-4">
+          <div class="text-center mb-10" data-aos="fade-up">
+            <h2 class="text-4xl font-script text-theme-gold">Wedding Day</h2>
           </div>
 
-          <div class="column is-12 regular-section" data-aos="fade-up" data-aos-easing="linear">
-            <p class="tempat is-larger has-text-centered">
-              <strong>Kediaman Mempelai Pria</strong>
-              <br>
-              Jln. Pucangan 1C, Purworejo, 
-              <br>
-              Kec. Purworejo, Kota Pasuruan, Jawa Timur
-              <br>
+          <!-- Akad Card (Arch Hitam) -->
+          <div
+            class="bg-theme-dark text-white rounded-t-[150px] rounded-b-3xl pt-20 pb-10 px-6 text-center shadow-xl mx-2 mb-10 relative overflow-hidden"
+            data-aos="zoom-in-up"
+          >
+            <h3 class="text-xl tracking-[0.3em] font-medium mb-4 uppercase">
+              Akad Nikah
+            </h3>
+            <div class="text-6xl font-serif mb-2">8</div>
+            <p class="text-sm font-light mb-1 uppercase tracking-widest">
+              Jumat, 23 Oktober 2026
+            </p>
+            <p class="text-sm font-light mb-6">07.30 WIB - Selesai</p>
+
+            <p class="text-xs tracking-widest mb-2 uppercase text-gray-300">
+              Tempat
+            </p>
+            <p class="text-sm font-medium mb-6">
+              Jl. Sulawesi Utara No. 31<br />Kelurahan Trajeng Kec. Panggungrejo
+            </p>
+
+            <a
+              href="#"
+              class="inline-block bg-theme-gold text-white text-xs px-6 py-2 rounded shadow-md"
+              ><i class="fa-solid fa-location-dot"></i> Buka Peta Lokasi</a
+            >
+          </div>
+
+          <!-- Resepsi Card (Arch Hitam) -->
+          <div
+            class="bg-theme-dark text-white rounded-t-[150px] rounded-b-3xl pt-20 pb-10 px-6 text-center shadow-xl mx-2 relative overflow-hidden"
+            data-aos="zoom-in-up"
+          >
+            <h3 class="text-xl tracking-[0.3em] font-medium mb-4 uppercase">
+              Resepsi
+            </h3>
+            <div class="text-6xl font-serif mb-2">8</div>
+            <p class="text-sm font-light mb-1 uppercase tracking-widest">
+              Ahad, 25 Oktober 2026
+            </p>
+            <p class="text-sm font-light mb-6">10.00 WIB - Selesai</p>
+
+            <p class="text-xs tracking-widest mb-2 uppercase text-gray-300">
+              Tempat
+            </p>
+            <p class="text-sm font-medium mb-6">Kp Duyo<br />Kab. Pasuruan</p>
+
+            <a
+              href="#"
+              class="inline-block bg-theme-gold text-white text-xs px-6 py-2 rounded shadow-md"
+              ><i class="fa-solid fa-location-dot"></i> Buka Peta Lokasi</a
+            >
+          </div>
+        </section>
+
+        <!-- Gift Section -->
+        <section id="gift" class="py-12 px-6 bg-theme-light">
+          <div class="text-center mb-8" data-aos="fade-up">
+            <h2 class="text-4xl font-script text-theme-gold mb-2">
+              Wedding Gift
+            </h2>
+            <p class="text-xs text-theme-dark">
+              Jika memberi adalah tanda kasih Anda, Anda dapat memberikan kado
+              secara cashless ke rekening mempelai.
             </p>
           </div>
-          <div class="section-map" data-aos="fade-up" data-aos-easing="linear">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d988.571999792917!2d112.89777382915531!3d-7.652149670493044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x684d2a723bf9b13d!2zN8KwMzknMDcuNyJTIDExMsKwNTMnNTQuMCJF!5e0!3m2!1sid!2sid!4v1671350184129!5m2!1sid!2sid" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-          </div>
-          <div class="space40px"></div>
-          <div class="has-text-centered" data-aos="fade-up" data-aos-easing="linear">
-            <a href="https://www.google.com/maps/dir//Pasuruan,+Purworejo,+Kec.+Purworejo,+Kota+Pasuruan,+Jawa+Timur+67115/@-7.6521792,112.8983845,20z/data=!4m9!4m8!1m0!1m5!1m1!1s0x2dd7c5fb3688980d:0xf4429ffd7006f648!2m2!1d112.8982295!2d-7.65243!3e0?hl=id" class="button btn-cta" target="_blank" data-aos="zoom-in">
-              <i class="far fa-directions"></i>
-              &nbsp;&nbsp;Lihat rute
-            </a>
-          </div>
 
-        </div>
-      </section>
-      <!-- End Lokasi Content -->
-
-      <!-- Begin Tentang Sherly and Daeng -->
-      <section class="section-light regular-section is-fullheight" id="tentang-indra-nila">
-        <div class="container">
-          <div class="columns is-multiline">  
-          <div class="column has-text-centered is-12 prolog">
-            <h1 class="title has-text-centered section-title" data-aos="fade-up" data-aos-easing="linear">Our Journey</h1>
-          </div>
-          <!-- IMAGES -->
-          <div class="space40px"></div>
-            <div data-aos="fade-up" data-aos-easing="linear">
-              <img src="divider-leaves.png" class="divider has-vertically-align" alt="~~~">
-            </div> 
-            <div class="space40px"></div>
-            <div class="space40px"></div>
-
-          </div>
-        </div>
-      </section>
-      <!-- End Tentang Sherly dan Daeng -->
-
-      <!-- Begin RSVP Content -->
-      <section class="section-dark contact" id="rsvp">
-        <div class="container">
-          <div class="columns is-multiline">          
-            <div class="column is-12 prolog">
-              <h1 class="title has-text-centered section-title" data-aos="fade-up" data-aos-easing="linear">Konfirmasi Kehadiran</h1>
-            </div>
-            <div class="column is-12 prolog has-text-centered" data-aos="fade-up" data-aos-easing="linear">
-              <p class="h2 subtitle">
-                Merupakan suatu kehormatan dan kebahagiaan bagi kami
-                <br>
-                apabila Bapak/Ibu/Saudara/Saudari berkenan hadir
-                memberikan doa restu.
-                <br>
-                <br>
-                
-              <div class="space40px"></div>
-
-              <div class="space40px"></div>
-              <div data-aos="fade-up" data-aos-easing="linear">
-                <img src="divider-leaves.png" class="divider has-text-centered" alt="~~~">
+          <div class="space-y-4">
+            <!-- Bank Card -->
+            <div
+              class="bg-white border border-gray-200 rounded-2xl p-6 shadow-sm text-center relative overflow-hidden"
+              data-aos="flip-up"
+            >
+              <div class="absolute top-0 right-0 p-4 opacity-20">
+                <i class="fa-solid fa-building-columns text-4xl"></i>
               </div>
-              <div class="space40px"></div>
-              <p class="h2 subtitle" data-aos="fade-up" data-aos-easing="linear">
-                Kami yang berbahagia,
-                <br>
-                <a class="instagram" href="https://instagram.com/nila.azmi.ismail" target="_blank" alt="Instagram Sherly">
-                  <i class="fab fa-instagram"></i> @nila.azmi.ismail
-                </a>
-                &nbsp
-                <a class="instagram" href="https://instagram.com/indraidwc" target="_blank" alt="Instagram Daeng">
-                  <i class="fab fa-instagram"></i> @indraidwc
-                </a>
-              </p>
-
+              <h4 class="font-bold text-lg text-theme-dark">BANK BRI</h4>
+              <p class="text-sm text-gray-600 mt-2">Kiki MARISKA</p>
+              <p class="text-lg font-mono text-theme-dark mt-1">002773207xxx</p>
+              <button
+                class="mt-4 text-xs bg-gray-100 hover:bg-gray-200 text-theme-dark px-4 py-1.5 rounded-full border border-gray-300"
+              >
+                Salin No. Rekening <i class="fa-regular fa-copy"></i>
+              </button>
             </div>
- 
-         </div>
-        </div>
-      </section>
-      <!-- End RSVP Content -->
-    </div>
-    <!-- End Main Content -->
+          </div>
+        </section>
 
-    <!-- Begin Footer -->
-    <div class="footer">
-      <div class="container">
-        Made with
-        <br>
-        <a href="https://laravel.com" class="has-vertically-align">
-          <img src="2560px-Logo.min.svg.png" alt="Build with Laravel">
-        </a>
-        <a href="https://bulma.io" class="has-vertically-align">
-          <img src="bulma-logo.png" alt="Made with Bulma">
-        </a>
-        <a href="https://www.tailwindcss.com">
-          <img src="tailwind-css-1.svg" alt="Made with TailwindCSS"/>
-        </a>
+        <!-- RSVP & Doa Section -->
+        <section id="rsvp-doa" class="py-12 px-6 bg-floral bg-cover bg-fixed">
+          <!-- RSVP Form -->
+          <div
+            class="bg-white/80 backdrop-blur-md rounded-3xl p-6 shadow-lg mb-10"
+            data-aos="fade-up"
+          >
+            <h2 class="text-4xl font-script text-theme-gold text-center mb-6">
+              Rsvp
+            </h2>
+            <form class="space-y-4 text-sm">
+              <div>
+                <label class="block text-theme-dark font-medium mb-1"
+                  >Nama</label
+                >
+                <input
+                  type="text"
+                  id="rsvp-name"
+                  class="w-full bg-white border border-gray-300 rounded p-3 focus:outline-none focus:border-theme-gold text-gray-700"
+                />
+              </div>
+              <div>
+                <label class="block text-theme-dark font-medium mb-1"
+                  >Jumlah Yang Akan Hadir</label
+                >
+                <select
+                  class="w-full bg-white border border-gray-300 rounded p-3 focus:outline-none focus:border-theme-gold text-gray-700"
+                >
+                  <option>1 Orang</option>
+                  <option>2 Orang</option>
+                </select>
+              </div>
+              <div>
+                <label class="block text-theme-dark font-medium mb-1"
+                  >Konfirmasi</label
+                >
+                <select
+                  class="w-full bg-white border border-gray-300 rounded p-3 focus:outline-none focus:border-theme-gold text-gray-700"
+                >
+                  <option>Iya, Saya akan hadir</option>
+                  <option>Maaf, Saya tidak bisa hadir</option>
+                </select>
+              </div>
+              <button
+                type="button"
+                class="bg-theme-dark text-white px-6 py-2.5 rounded shadow-md w-32 uppercase tracking-widest text-xs hover:bg-theme-gold transition"
+              >
+                Kirim
+              </button>
+            </form>
+          </div>
+
+          <!-- Doa Form -->
+          <div
+            class="bg-theme-dark/90 backdrop-blur-md text-white rounded-3xl p-6 shadow-lg text-center"
+            data-aos="fade-up"
+          >
+            <h2 class="text-4xl font-script text-theme-gold mb-2">
+              Doa & Ucapan
+            </h2>
+            <p class="text-xs mb-6 font-light">
+              Doa Restu Anda merupakan karunia yang sangat berarti bagi kami.
+            </p>
+
+            <div class="bg-white p-5 rounded-2xl text-left">
+              <form class="space-y-3">
+                <input
+                  type="text"
+                  id="doa-name"
+                  class="w-full bg-gray-50 border border-gray-200 rounded p-3 text-sm focus:outline-none text-gray-800"
+                  placeholder="Nama"
+                />
+                <textarea
+                  rows="3"
+                  class="w-full bg-gray-50 border border-gray-200 rounded p-3 text-sm focus:outline-none text-gray-800"
+                  placeholder="Tulis ucapan & doa disini..."
+                ></textarea>
+                <button
+                  type="button"
+                  class="bg-theme-dark text-white px-6 py-2 rounded shadow-md uppercase tracking-widest text-xs"
+                >
+                  Kirim
+                </button>
+              </form>
+            </div>
+          </div>
+        </section>
       </div>
-    </div>
-    <!-- End Footer -->
 
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="menikah.js"></script>
-    <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
-    <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+      <!-- ================= BOTTOM NAVIGATION ================= -->
+      <nav
+        id="bottom-nav"
+        class="fixed bottom-0 left-0 right-0 w-full max-w-md mx-auto bg-white/90 backdrop-blur-md border-t border-gray-200 flex justify-around items-center p-3 z-50 hidden"
+      >
+        <a
+          href="#cover"
+          class="text-gray-400 hover:text-theme-dark flex flex-col items-center p-2 rounded-lg bg-gray-100"
+          ><i class="fa-solid fa-house text-lg"></i
+        ></a>
+        <a
+          href="#couple"
+          class="text-gray-400 hover:text-theme-dark flex flex-col items-center p-2"
+          ><i class="fa-solid fa-heart text-lg"></i
+        ></a>
+        <a
+          href="#event"
+          class="text-gray-400 hover:text-theme-dark flex flex-col items-center p-2"
+          ><i class="fa-solid fa-calendar-check text-lg"></i
+        ></a>
+        <a
+          href="#gift"
+          class="text-gray-400 hover:text-theme-dark flex flex-col items-center p-2"
+          ><i class="fa-solid fa-gift text-lg"></i
+        ></a>
+        <a
+          href="#rsvp-doa"
+          class="text-gray-400 hover:text-theme-dark flex flex-col items-center p-2"
+          ><i class="fa-solid fa-comment-dots text-lg"></i
+        ></a>
+      </nav>
+    </div>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
     <script>
+      // 1. Inisialisasi AOS Animation
       AOS.init({
-        easing: "ease-out",
-        duration: 800,
+        once: false, // Animasi bisa berulang kalau discroll naik turun
+        offset: 50,
       });
+
+      // 2. Mengambil Nama Tamu dari URL (Misal: web.com/?to=Ahmad+Sukri)
+      const urlParams = new URLSearchParams(window.location.search);
+      // Default diset "Ahmad Sukri" sesuai permintaan, tapi jika ada parameter URL akan berubah dinamis
+      let guestName = urlParams.get("to") || "Ahmad Sukri";
+
+      // Memasukkan nama ke halaman depan
+      document.getElementById("guest-name-display").innerText = guestName;
+      // Memasukkan (pre-fill) nama ke form RSVP dan DOA agar otomatis terisi namun tetap bisa diedit
+      document.getElementById("rsvp-name").value = guestName;
+      document.getElementById("doa-name").value = guestName;
+
+      // 3. Logika Klik Tombol Buka Undangan
+      function bukaUndangan() {
+        // Hilangkan class overflow-hidden agar halaman bisa di-scroll
+        document.body.classList.remove("overflow-hidden");
+
+        // Tampilkan Navigasi Bawah
+        const nav = document.getElementById("bottom-nav");
+        nav.classList.remove("hidden");
+        // Sedikit jeda agar transisi CSS berjalan mulus
+        setTimeout(() => {
+          nav.classList.add("show");
+        }, 10);
+
+        // Scroll mulus otomatis ke bagian quote/pembuka
+        document
+          .getElementById("opening")
+          .scrollIntoView({ behavior: "smooth" });
+      }
     </script>
   </body>
 </html>
