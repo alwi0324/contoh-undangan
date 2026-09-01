@@ -429,20 +429,16 @@
                     <option value="Tidak Hadir">Berhalangan hadir</option>
                   </select>
                 </div>
-                <div>
-                  <label class="block text-theme-dark font-medium mb-1"
-                    >Jumlah Tamu</label
-                  >
-                  <select
-                    id="rsvp-jumlah"
-                    class="w-full bg-white border border-gray-300 rounded p-3 focus:outline-none focus:border-theme-gold text-gray-700"
-                  >
-                    <option value="1">1 Orang</option>
-                    <option value="2">2 Orang</option>
-                    <option value="3">3 Orang</option>
-                    <option value="4">4 Orang</option>
-                  </select>
-                </div>
+                <!-- Contoh bungkus input jumlah tamu di HTML -->
+<div id="wrapper-jumlah" class="mb-3">
+  <label class="block text-xs font-semibold mb-1 text-gray-700">Jumlah Orang yang Hadir</label>
+  <select id="rsvp-jumlah" class="w-full bg-gray-50 border border-gray-200 rounded p-3 text-sm focus:outline-none">
+    <option value="1">1 Orang</option>
+    <option value="2">2 Orang</option>
+    <option value="3">3 Orang</option>
+    <option value="4">4 Orang</option>
+  </select>
+</div>
                 <button
                   type="button"
                   class="bg-theme-dark text-white px-6 py-2.5 rounded shadow-md w-full uppercase tracking-widest text-xs font-semibold hover:bg-[#5c4a3d] transition-all"
@@ -829,6 +825,25 @@
       function escapeHtml(text) {
         const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
         return text.toString().replace(/[&<>"']/g, m => map[m]);
+      }
+
+      // Logika Ubah Tampilan Jumlah Tamu Berdasarkan Status Kehadiran
+      const rsvpStatusSelect = document.getElementById("rsvp-status");
+      const wrapperJumlah = document.getElementById("wrapper-jumlah");
+      const rsvpJumlahInput = document.getElementById("rsvp-jumlah");
+
+      if (rsvpStatusSelect) {
+        rsvpStatusSelect.addEventListener("change", function () {
+          if (this.value === "Hadir" || this.value === "Hadir (Hadir)" || this.value === "1") { 
+            // Sesuaikan value dengan option "Hadir" di HTML kamu (misal: "Hadir" atau "1")
+            wrapperJumlah.style.display = "block";
+            rsvpJumlahInput.value = "1"; // Reset otomatis ke 1 saat memilih hadir
+          } else {
+            // Jika memilih Tidak Hadir / Ragu-ragu
+            wrapperJumlah.style.display = "none";
+            rsvpJumlahInput.value = "0"; // Set value jadi 0 agar terekam 0 di spreadsheet
+          }
+        });
       }
     </script>
   </body>
