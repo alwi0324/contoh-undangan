@@ -442,6 +442,7 @@
                 <button
                   type="button"
                   class="bg-theme-dark text-white px-6 py-2.5 rounded shadow-md w-full uppercase tracking-widest text-xs font-semibold hover:bg-[#5c4a3d] transition-all"
+                  onclick="submitRsvp()"
                 >
                   Konfirmasi Kehadiran
                 </button>
@@ -480,10 +481,16 @@
                   <button
                     type="button"
                     class="bg-theme-dark text-white px-6 py-2 rounded shadow-md uppercase tracking-widest text-xs font-semibold w-full hover:bg-[#5c4a3d] transition-all"
+                    onclick="submitUcapan()"
                   >
                     Kirim Ucapan
                   </button>
                 </form>
+
+                <hr class="border-gray-200 my-4">
+                <div id="list-ucapan-container" class="space-y-3 max-h-[350px] overflow-y-auto pr-1">
+                  <!-- Card ucapan akan otomatis dirender di sini secara realtime -->
+                </div>
               </div>
             </div>
           </div>
