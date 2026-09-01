@@ -535,12 +535,23 @@
       // 1. Inisialisasi AOS
       AOS.init({ once: false, offset: 50 });
 
-      // 2. Pre-fill Nama Tamu
+      // Ganti dengan URL Web App Google Apps Script kamu
+      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbygoZr9iYGGI1XCp-57z83_eACH_2_B_TD7vsrMJn1UP_iB3eb1NFkCDKTZVD3UH0YA/exec"; 
+      
+      // Ambil parameter slug dari URL (Hanya dideklarasikan SEKALI di sini)
       const urlParams = new URLSearchParams(window.location.search);
-      let guestName = urlParams.get("to") || "Ahmad Sukri";
+      const currentSlug = urlParams.get('to') || "";
+
+      // 2. Pre-fill Nama Tamu Default sebelum di-fetch dari server
+      let guestName = currentSlug ? "Memuat..." : "Ahmad Sukri";
       document.getElementById("guest-name-display").innerText = guestName;
       document.getElementById("rsvp-name").value = guestName;
       document.getElementById("doa-name").value = guestName;
+
+      document.addEventListener("DOMContentLoaded", () => {
+        validateAndLoadData();
+        loadUcapanCards();
+      });
 
       // 3. Buka Undangan
       function bukaUndangan() {
@@ -595,29 +606,16 @@
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-        document.getElementById("days").innerText = String(days).padStart(
-          2,
-          "0",
-        );
-        document.getElementById("hours").innerText = String(hours).padStart(
-          2,
-          "0",
-        );
-        document.getElementById("minutes").innerText = String(minutes).padStart(
-          2,
-          "0",
-        );
-        document.getElementById("seconds").innerText = String(seconds).padStart(
-          2,
-          "0",
-        );
+        document.getElementById("days").innerText = String(days).padStart(2, "0");
+        document.getElementById("hours").innerText = String(hours).padStart(2, "0");
+        document.getElementById("minutes").innerText = String(minutes).padStart(2, "0");
+        document.getElementById("seconds").innerText = String(seconds).padStart(2, "0");
       }, 1000);
 
       // 6. Auto Highlight Navigasi & Klik tanpa merubah URL hash (#)
       const sections = document.querySelectorAll("section");
       const navLinks = document.querySelectorAll(".nav-link");
 
-      // Handle Smooth Scroll Tanpa Menambahkan # di URL
       navLinks.forEach((link) => {
         link.addEventListener("click", function (e) {
           e.preventDefault();
@@ -658,20 +656,8 @@
       }, observerOptions);
 
       sections.forEach((section) => observer.observe(section));
-
-      // Ganti dengan URL Web App Google Apps Script kamu
-      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbygoZr9iYGGI1XCp-57z83_eACH_2_B_TD7vsrMJn1UP_iB3eb1NFkCDKTZVD3UH0YA/exec"; 
       
-      // Ambil parameter slug dari URL (contoh: ?to=ahmad-sukri)
-      const urlParams = new URLSearchParams(window.location.search);
-      const currentSlug = urlParams.get('to') || "";
-      
-      document.addEventListener("DOMContentLoaded", () => {
-        validateAndLoadData();
-        loadUcapanCards();
-      });
-      
-      // 1. Validasi Slug & Ambil Nama Tamu saat Halaman Dibuka
+      // 7. Validasi Slug & Ambil Nama Tamu saat Halaman Dibuka
       async function validateAndLoadData() {
         if (!currentSlug) {
           showErrorScreen("Tautan undangan kosong atau tidak valid.");
@@ -683,11 +669,10 @@
           const result = await response.json();
       
           if (result.isValid) {
-            // Slug valid, auto-fill nama tamu ke form
-            if(document.getElementById("rsvp-name")) document.getElementById("rsvp-name").value = result.namaTamu;
-            if(document.getElementById("doa-name")) document.getElementById("doa-name").value = result.namaTamu;
+            document.getElementById("guest-name-display").innerText = result.namaTamu;
+            document.getElementById("rsvp-name").value = result.namaTamu;
+            document.getElementById("doa-name").value = result.namaTamu;
           } else {
-            // Slug tidak terdaftar di spreadsheet, tampilkan error interaktif
             showErrorScreen("Maaf, tautan undangan tidak ditemukan di daftar tamu kami.");
           }
         } catch (error) {
@@ -695,7 +680,7 @@
         }
       }
       
-      // 2. Fungsi Kirim RSVP via Fetch POST
+      // 8. Fungsi Kirim RSVP via Fetch POST
       async function submitRsvp() {
         const jmlOrang = document.getElementById("rsvp-jumlah").value;
         const rsvpStatus = document.getElementById("rsvp-status").value;
@@ -735,7 +720,7 @@
         }
       }
       
-      // 3. Fungsi Kirim Ucapan & Doa via Fetch POST
+      // 9. Fungsi Kirim Ucapan & Doa via Fetch POST
       async function submitUcapan() {
         const nama = document.getElementById("doa-name").value.trim();
         const ucapan = document.getElementById("doa-message").value.trim();
@@ -763,8 +748,8 @@
           const result = await response.json();
       
           if (result.status === "success") {
-            renderUcapanCards(result.ucapanList); // Langsung render update list terbaru di paling atas
-            document.getElementById("doa-message").value = ""; // Kosongkan input pesan
+            renderUcapanCards(result.ucapanList); 
+            document.getElementById("doa-message").value = ""; 
       
             Swal.fire({
               icon: 'success',
@@ -782,7 +767,7 @@
         }
       }
       
-      // 4. Ambil & Render 10 Ucapan Terbaru
+      // 10. Ambil & Render 10 Ucapan Terbaru
       async function loadUcapanCards() {
         try {
           const response = await fetch(`${SCRIPT_URL}?action=get_ucapan`);
@@ -817,7 +802,6 @@
         container.innerHTML = html;
       }
       
-      // Helper Error Screen Interaktif
       function showErrorScreen(message) {
         document.body.innerHTML = `
           <div class="min-h-screen flex items-center justify-center p-6 bg-[#f7f3ef] text-center">
