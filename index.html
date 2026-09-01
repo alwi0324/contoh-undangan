@@ -658,6 +658,183 @@
       }, observerOptions);
 
       sections.forEach((section) => observer.observe(section));
+
+      // Ganti dengan URL Web App Google Apps Script kamu
+      const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbygoZr9iYGGI1XCp-57z83_eACH_2_B_TD7vsrMJn1UP_iB3eb1NFkCDKTZVD3UH0YA/exec"; 
+      
+      // Ambil parameter slug dari URL (contoh: ?to=ahmad-sukri)
+      const urlParams = new URLSearchParams(window.location.search);
+      const currentSlug = urlParams.get('to') || "";
+      
+      document.addEventListener("DOMContentLoaded", () => {
+        validateAndLoadData();
+        loadUcapanCards();
+      });
+      
+      // 1. Validasi Slug & Ambil Nama Tamu saat Halaman Dibuka
+      async function validateAndLoadData() {
+        if (!currentSlug) {
+          showErrorScreen("Tautan undangan kosong atau tidak valid.");
+          return;
+        }
+      
+        try {
+          const response = await fetch(`${SCRIPT_URL}?action=check_slug&to=${currentSlug}`);
+          const result = await response.json();
+      
+          if (result.isValid) {
+            // Slug valid, auto-fill nama tamu ke form
+            if(document.getElementById("rsvp-name")) document.getElementById("rsvp-name").value = result.namaTamu;
+            if(document.getElementById("doa-name")) document.getElementById("doa-name").value = result.namaTamu;
+          } else {
+            // Slug tidak terdaftar di spreadsheet, tampilkan error interaktif
+            showErrorScreen("Maaf, tautan undangan tidak ditemukan di daftar tamu kami.");
+          }
+        } catch (error) {
+          console.error("Gagal memvalidasi slug:", error);
+        }
+      }
+      
+      // 2. Fungsi Kirim RSVP via Fetch POST
+      async function submitRsvp() {
+        const jmlOrang = document.getElementById("rsvp-jumlah").value;
+        const rsvpStatus = document.getElementById("rsvp-status").value;
+      
+        Swal.fire({
+          title: 'Menyimpan...',
+          allowOutsideClick: false,
+          didOpen: () => { Swal.showLoading(); }
+        });
+      
+        try {
+          const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({
+              action: "save_rsvp",
+              slug: currentSlug,
+              jml_orang: jmlOrang,
+              rsvp: rsvpStatus
+            })
+          });
+          const result = await response.json();
+      
+          if (result.status === "success") {
+            Swal.fire({
+              icon: 'success',
+              title: 'Terima kasih atas konfirmasi Anda!',
+              showConfirmButton: false,
+              timer: 2000,
+              background: '#f7f3ef',
+              color: '#3e2723'
+            });
+          } else {
+            Swal.fire('Gagal', result.message, 'error');
+          }
+        } catch (error) {
+          Swal.fire('Error', 'Terjadi kesalahan jaringan.', 'error');
+        }
+      }
+      
+      // 3. Fungsi Kirim Ucapan & Doa via Fetch POST
+      async function submitUcapan() {
+        const nama = document.getElementById("doa-name").value.trim();
+        const ucapan = document.getElementById("doa-message").value.trim();
+      
+        if(!nama || !ucapan) {
+          Swal.fire('Perhatian', 'Nama dan ucapan tidak boleh kosong!', 'warning');
+          return;
+        }
+      
+        Swal.fire({
+          title: 'Mengirim ucapan...',
+          allowOutsideClick: false,
+          didOpen: () => { Swal.showLoading(); }
+        });
+      
+        try {
+          const response = await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify({
+              action: "save_ucapan",
+              nama: nama,
+              ucapan: ucapan
+            })
+          });
+          const result = await response.json();
+      
+          if (result.status === "success") {
+            renderUcapanCards(result.ucapanList); // Langsung render update list terbaru di paling atas
+            document.getElementById("doa-message").value = ""; // Kosongkan input pesan
+      
+            Swal.fire({
+              icon: 'success',
+              title: 'Terima kasih atas ucapan dan doanya :)',
+              showConfirmButton: false,
+              timer: 2000,
+              background: '#f7f3ef',
+              color: '#3e2723'
+            });
+          } else {
+            Swal.fire('Gagal', result.message, 'error');
+          }
+        } catch (error) {
+          Swal.fire('Error', 'Gagal mengirim ucapan.', 'error');
+        }
+      }
+      
+      // 4. Ambil & Render 10 Ucapan Terbaru
+      async function loadUcapanCards() {
+        try {
+          const response = await fetch(`${SCRIPT_URL}?action=get_ucapan`);
+          const list = await response.json();
+          renderUcapanCards(list);
+        } catch (error) {
+          console.error("Gagal memuat ucapan:", error);
+        }
+      }
+      
+      function renderUcapanCards(list) {
+        const container = document.getElementById("list-ucapan-container");
+        if(!container) return;
+        
+        if(!list || list.length === 0) {
+          container.innerHTML = `<p class="text-xs text-gray-500 text-center py-4">Belum ada ucapan.</p>`;
+          return;
+        }
+      
+        let html = "";
+        list.forEach(item => {
+          html += `
+            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-left shadow-sm transition-all">
+              <div class="flex justify-between items-center mb-1">
+                <h4 class="font-bold text-sm text-theme-dark">${escapeHtml(item.nama)}</h4>
+                <span class="text-[10px] text-gray-400 italic">${item.timeAgo}</span>
+              </div>
+              <p class="text-xs text-gray-700 leading-relaxed">${escapeHtml(item.ucapan)}</p>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+      }
+      
+      // Helper Error Screen Interaktif
+      function showErrorScreen(message) {
+        document.body.innerHTML = `
+          <div class="min-h-screen flex items-center justify-center p-6 bg-[#f7f3ef] text-center">
+            <div class="bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-xl max-w-sm w-full border border-gray-200">
+              <div class="text-amber-600 text-5xl mb-4">⚠️</div>
+              <h2 class="text-xl font-bold text-gray-800 mb-2">Undangan Tidak Ditemukan</h2>
+              <p class="text-xs text-gray-600 mb-6 leading-relaxed">${message}</p>
+              <a href="index.html" class="inline-block bg-[#3e2723] text-white text-xs uppercase tracking-widest px-6 py-3 rounded-full shadow">Kembali</a>
+            </div>
+          </div>
+        `;
+      }
+      
+      function escapeHtml(text) {
+        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        return text.toString().replace(/[&<>"']/g, m => map[m]);
+      }
     </script>
   </body>
 </html>
