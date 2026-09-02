@@ -92,9 +92,80 @@
       ::-webkit-scrollbar {
         width: 0px;
       }
+      @keyframes spin-slow {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .animate-spin-slow {
+        animation: spin-slow 4s linear infinite;
+      }
+
+      /* Efek cahaya berpendar (glow) warna emas */
+      .music-glow {
+        box-shadow:
+          0 0 15px rgba(179, 139, 89, 0.8),
+          inset 0 0 5px rgba(255, 255, 255, 0.5);
+      }
     </style>
   </head>
   <body class="overflow-hidden antialiased text-gray-800">
+    <!-- Tag Audio (Tanpa atribut loop) -->
+    <audio id="background-music">
+      <source src="backsound.mp3" type="audio/mpeg" />
+      Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <!-- Tombol Kontrol Musik (Floating di Kiri Bawah) -->
+    <button
+      id="btn-music"
+      onclick="toggleMusic()"
+      class="fixed bottom-20 left-4 z-[9999] w-10 h-10 bg-[#3e2723]/90 hover:bg-[#3e2723] text-white rounded-full shadow-2xl backdrop-blur-md border border-white/30 flex items-center justify-center transition-all duration-300 hidden"
+      aria-label="Toggle Music"
+    >
+      <!-- Ikon Play -->
+      <svg
+        id="icon-play"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-10 w-10"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+        />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+      <!-- Ikon Pause -->
+      <svg
+        id="icon-pause"
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-10 w-10 hidden"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z"
+        />
+      </svg>
+    </button>
     <div
       class="max-w-md mx-auto bg-theme-light min-h-screen relative shadow-2xl overflow-x-hidden"
     >
@@ -366,7 +437,8 @@
               secara <i>cashless</i> ke rekening berikut:
             </p>
           </div>
-          <div data-aos="flip-left"
+          <div
+            data-aos="flip-left"
             data-aos-easing="ease-out-cubic"
             data-aos-duration="1500"
             class="relative overflow-hidden rounded-2xl p-6 text-white shadow-xl bg-gradient-to-br from-amber-700 via-yellow-600 to-amber-900 border border-amber-500/30 transition-all duration-300"
@@ -379,16 +451,17 @@
                 <div class="w-full border-t border-amber-600/30"></div>
               </div>
               <div class="h-10 flex items-center justify-end overflow-visible">
-  <img
-    src="jago (2).png"
-    alt="Logo Bank Jago"
-    style="height: 50px; transform: scale(2.2); transform-origin: right center;"
-    class="object-contain filter brightness-200 contrast-200 drop-shadow"
-  />
+                <img
+                  src="jago (2).png"
+                  alt="Logo Bank Jago"
+                  style="
+                    height: 50px;
+                    transform: scale(2.2);
+                    transform-origin: right center;
+                  "
+                  class="object-contain filter brightness-200 contrast-200 drop-shadow"
+                />
               </div>
-              <!-- <span class="font-bold tracking-wider text-sm text-white"
-                >BANK JAGO</span
-              > -->
             </div>
 
             <!-- Nomor Rekening -->
@@ -398,8 +471,11 @@
               >
                 Nomor Rekening
               </p>
-              <p class="text-lg font-mono font-bold tracking-wider text-white">
-                1234-01-005678-50-2
+              <p
+                class="text-lg font-mono font-bold tracking-wider text-white"
+                id="gift-norek"
+              >
+                Memuat...
               </p>
             </div>
 
@@ -411,13 +487,17 @@
                 >
                   Pemilik Rekening
                 </p>
-                <p class="text-xs font-semibold tracking-wide text-white">
-                  NURUS SHUBHIYYAH ISMAIL
+                <p
+                  class="text-xs font-semibold uppercase tracking-wide text-white"
+                  id="gift-nama"
+                >
+                  Memuat...
                 </p>
               </div>
 
               <button
-                onclick="salinRekening('123401005678502')"
+                id="btn-salin-gift"
+                onclick="salinRekening()"
                 class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-200 text-xs px-4 py-2 rounded-xl border border-amber-500/30 transition-all font-semibold flex items-center space-x-1.5"
               >
                 <span>Salin</span>
@@ -590,19 +670,18 @@
 
     <script>
       const music = document.getElementById("background-music");
-const btnMusic = document.getElementById("btn-music");
-const iconPlay = document.getElementById("icon-play");
-const iconPause = document.getElementById("icon-pause");
+      const btnMusic = document.getElementById("btn-music");
+      const iconPlay = document.getElementById("icon-play");
+      const iconPause = document.getElementById("icon-pause");
 
-// Variabel untuk melacak apakah user sengaja mem-pause musik via tombol
-let isUserPaused = false;
-      
+      // Variabel untuk melacak apakah user sengaja mem-pause musik via tombol
+      let isUserPaused = false;
+
       // 1. Inisialisasi AOS
       AOS.init({ once: false, offset: 50 });
 
-      // Ganti dengan URL Web App Google Apps Script kamu
       const SCRIPT_URL =
-        "https://script.google.com/macros/s/AKfycbygoZr9iYGGI1XCp-57z83_eACH_2_B_TD7vsrMJn1UP_iB3eb1NFkCDKTZVD3UH0YA/exec";
+        "https://script.google.com/macros/s/AKfycbyQF-GJ9x0xDSlbh_NG4SKcVKEZDYFV-5RwyYiJ7tubMru4EwqUsUqCM85QMv08jIwM/exec";
 
       // Ambil parameter slug dari URL (Hanya dideklarasikan SEKALI di sini)
       const urlParams = new URLSearchParams(window.location.search);
@@ -617,7 +696,25 @@ let isUserPaused = false;
       document.addEventListener("DOMContentLoaded", () => {
         validateAndLoadData();
         loadUcapanCards();
+        loadGiftData();
       });
+
+      let currentNorek = "";
+
+      async function loadGiftData() {
+        try {
+          const response = await fetch(`${SCRIPT_URL}?action=get_gift`);
+          const data = await response.json();
+
+          if (data.nama && data.norek) {
+            document.getElementById("gift-nama").innerText = data.nama;
+            document.getElementById("gift-norek").innerText = data.norek;
+            currentNorek = data.norek; // Simpan untuk fungsi salin
+          }
+        } catch (error) {
+          console.error("Gagal memuat data gift:", error);
+        }
+      }
 
       // 3. Buka Undangan
       function bukaUndangan() {
@@ -630,66 +727,74 @@ let isUserPaused = false;
           .scrollIntoView({ behavior: "smooth" });
 
         // Putar musik
-  music.play().then(() => {
-    // Tampilkan tombol kontrol di kiri bawah setelah undangan dibuka
-    btnMusic.classList.remove("hidden");
-    updateMusicIcon(true);
-  }).catch(error => {
-    console.log("Autoplay dicegah browser:", error);
-  });
+        music
+          .play()
+          .then(() => {
+            // Tampilkan tombol kontrol di kiri bawah setelah undangan dibuka
+            btnMusic.classList.remove("hidden");
+            updateMusicIcon(true);
+          })
+          .catch((error) => {
+            console.log("Autoplay dicegah browser:", error);
+          });
       }
 
       function toggleMusic() {
-  if (music.paused) {
-    music.play();
-    isUserPaused = false; // User ingin memainkan kembali
-    updateMusicIcon(true);
-  } else {
-    music.pause();
-    isUserPaused = true; // User dengan sengaja mematikan musik
-    updateMusicIcon(false);
-  }
+        if (music.paused) {
+          music.play();
+          isUserPaused = false; // User ingin memainkan kembali
+          updateMusicIcon(true);
+        } else {
+          music.pause();
+          isUserPaused = true; // User dengan sengaja mematikan musik
+          updateMusicIcon(false);
+        }
       }
 
       function updateMusicIcon(isPlaying) {
-  if (isPlaying) {
-    iconPlay.classList.add("hidden");
-    iconPause.classList.remove("hidden");
-    btnMusic.classList.add("animate-spin-slow"); // Opsional: efek putar jika ada
-  } else {
-    iconPlay.classList.remove("hidden");
-    iconPause.classList.add("hidden");
-    btnMusic.classList.remove("animate-spin-slow");
-  }
-}
+        if (isPlaying) {
+          iconPlay.classList.add("hidden");
+          iconPause.classList.remove("hidden");
+          // Tambahkan efek berputar dan berpendar saat musik menyala
+          btnMusic.classList.add("animate-spin-slow", "music-glow");
+        } else {
+          iconPlay.classList.remove("hidden");
+          iconPause.classList.add("hidden");
+          // Hentikan putaran dan hilangkan pendaran saat dipause
+          btnMusic.classList.remove("animate-spin-slow", "music-glow");
+        }
+      }
 
       document.addEventListener("visibilitychange", function () {
-  // Cek apakah undangan sudah dibuka (artinya tombol musik sudah muncul)
-  const isInvitationOpened = !btnMusic.classList.contains("hidden");
+        // Cek apakah undangan sudah dibuka (artinya tombol musik sudah muncul)
+        const isInvitationOpened = !btnMusic.classList.contains("hidden");
 
-  if (isInvitationOpened) {
-    if (document.hidden) {
-      // Jika pindah tab / minimize, pause musik (tapi ingat statusnya)
-      if (!music.paused) {
-        music.pause();
-      }
-    } else {
-      // Jika balik lagi ke tab ini DAN sebelumnya user tidak sengaja mem-pause lagu
-      if (!isUserPaused) {
-        music.play().catch(e => console.log("Gagal resume otomatis:", e));
-        updateMusicIcon(true);
-      }
-    }
-  }
-});
+        if (isInvitationOpened) {
+          if (document.hidden) {
+            // Jika pindah tab / minimize, pause musik (tapi ingat statusnya)
+            if (!music.paused) {
+              music.pause();
+            }
+          } else {
+            // Jika balik lagi ke tab ini DAN sebelumnya user tidak sengaja mem-pause lagu
+            if (!isUserPaused) {
+              music
+                .play()
+                .catch((e) => console.log("Gagal resume otomatis:", e));
+              updateMusicIcon(true);
+            }
+          }
+        }
+      });
 
       // 4. Salin Rekening
-      function salinRekening(nomorRekening) {
-        navigator.clipboard.writeText(nomorRekening).then(() => {
+      function salinRekening() {
+        if (!currentNorek) return;
+        navigator.clipboard.writeText(currentNorek).then(() => {
           Swal.fire({
             icon: "success",
             title: "Nomor rekening berhasil disalin!",
-            text: nomorRekening,
+            text: currentNorek,
             showConfirmButton: false,
             timer: 3000,
             toast: true,
@@ -1043,28 +1148,5 @@ let isUserPaused = false;
         });
       }
     </script>
-
-    <!-- Tag Audio (Tanpa atribut loop) -->
-<audio id="background-music">
-  <source src="backsound.mp3" type="audio/mpeg">
-  Browser Anda tidak mendukung elemen audio.
-</audio>
-
-<!-- Tombol Kontrol Musik (Floating di Kiri Bawah) -->
-<button 
-  id="btn-music" 
-  onclick="toggleMusic()" 
-  class="fixed bottom-4 left-4 z-50 w-10 h-10 bg-theme-dark/80 hover:bg-theme-dark text-white rounded-full shadow-lg backdrop-blur-sm border border-white/20 flex items-center justify-center transition-all duration-300 hidden"
-  aria-label="Toggle Music"
->
-  <!-- Ikon Play / Pause (Bisa pakai SVG) -->
-  <svg id="icon-play" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-  <svg id="icon-pause" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-  </svg>
-</button>
   </body>
 </html>
