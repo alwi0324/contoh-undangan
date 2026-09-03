@@ -685,9 +685,7 @@
       document.getElementById("doa-name").value = guestName;
 
       document.addEventListener("DOMContentLoaded", () => {
-        validateAndLoadData();
-        loadUcapanCards();
-        loadGiftData();
+        AOS.init({ once: false, offset: 50 });
       });
 
       let currentNorek = "";
@@ -716,6 +714,18 @@
         document
           .getElementById("countdown-section")
           .scrollIntoView({ behavior: "smooth" });
+
+        validateAndLoadData();
+        loadUcapanCards();
+        loadGiftData();
+
+        const randomInterval = Math.floor(Math.random() * (30000 - 10000 + 1)) + 10000;
+
+        setInterval(() => {
+          if (typeof loadUcapanCards === "function") {
+            loadUcapanCards();
+          }
+        }, randomInterval);
 
         // Putar musik
         music
@@ -1017,12 +1027,6 @@
           console.error("Gagal memuat ucapan:", error);
         }
       }
-
-      setInterval(() => {
-        if (typeof loadUcapanCards === "function") {
-          loadUcapanCards();
-        }
-      }, 5000);
 
       function renderUcapanCards(list) {
         const container = document.getElementById("list-ucapan-container");
