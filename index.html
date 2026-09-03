@@ -897,7 +897,9 @@
       // 7. Validasi Slug & Ambil Nama Tamu saat Halaman Dibuka
       async function validateAndLoadData() {
         if (!currentSlug) {
-          showErrorScreen("Tautan undangan kosong atau tidak valid.");
+          document.getElementById("guest-name-display").innerText = "Tamu Undangan";
+          document.getElementById("rsvp-name").value = "Tamu Undangan";
+          document.getElementById("doa-name").value = "Tamu Undangan";
           return;
         }
 
