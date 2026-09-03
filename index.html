@@ -1027,15 +1027,6 @@
           if (result.status === "success") {
             renderUcapanCards(result.ucapanList);
             document.getElementById("doa-message").value = "";
-
-            Swal.fire({
-              icon: "success",
-              title: "Terima kasih atas ucapan dan doanya :)",
-              showConfirmButton: false,
-              timer: 2000,
-              background: "#f7f3ef",
-              color: "#3e2723",
-            });
           } else {
             Swal.fire("Gagal", result.message, "error");
           }
