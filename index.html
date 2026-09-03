@@ -668,18 +668,24 @@
         isUserPaused = true;    // Status dianggap berhenti
       })
 
-      // 1. Inisialisasi AOS
-      AOS.init({ once: false, offset: 50 });
-
       const SCRIPT_URL =
         "https://script.google.com/macros/s/AKfycbyQF-GJ9x0xDSlbh_NG4SKcVKEZDYFV-5RwyYiJ7tubMru4EwqUsUqCM85QMv08jIwM/exec";
 
-      // Ambil parameter slug dari URL (Hanya dideklarasikan SEKALI di sini)
+      // Ambil parameter slug dari URL
       const urlParams = new URLSearchParams(window.location.search);
       const currentSlug = urlParams.get("to") || "";
 
-      // 2. Pre-fill Nama Tamu Default sebelum di-fetch dari server
-      let guestName = currentSlug ? "Memuat..." : "Ahmad Sukri";
+      // Fungsi helper untuk mengubah slug (misal: "ahmad-sukri") menjadi Title Case ("Ahmad Sukri")
+      function formatSlugToName(slug) {
+        if (!slug) return "Tamu Undangan";
+        return slug
+          .replace(/[-_]/g, " ") // Ganti tanda hubung (-) atau underscore (_) dengan spasi
+          .toLowerCase()
+          .replace(/\b\w/g, (char) => char.toUpperCase()); // Kapitalkan huruf pertama di tiap kata
+      }
+
+      // Pre-fill Nama Tamu Default sebelum di-fetch dari server
+      let guestName = currentSlug ? formatSlugToName(currentSlug) : "Tamu Undangan";
       document.getElementById("guest-name-display").innerText = guestName;
       document.getElementById("rsvp-name").value = guestName;
       document.getElementById("doa-name").value = guestName;
@@ -705,7 +711,7 @@
         }
       }
 
-      // 3. Buka Undangan
+      // Buka Undangan
       function bukaUndangan() {
         document.body.classList.remove("overflow-hidden");
         const nav = document.getElementById("bottom-nav");
@@ -719,7 +725,7 @@
         loadUcapanCards();
         loadGiftData();
 
-        const randomInterval = Math.floor(Math.random() * (30000 - 10000 + 1)) + 10000;
+        const randomInterval = Math.floor(Math.random() * (60000 - 30000 + 1)) + 10000;
 
         setInterval(() => {
           if (typeof loadUcapanCards === "function") {
@@ -788,7 +794,7 @@
         }
       });
 
-      // 4. Salin Rekening
+      // Salin Rekening
       function salinRekening() {
         if (!currentNorek) return;
         navigator.clipboard.writeText(currentNorek).then(() => {
@@ -809,7 +815,7 @@
         });
       }
 
-      // 5. Perbaikan Countdown Timer
+      // Countdown Timer
       const countDownDate = new Date("Oct 23, 2026 07:30:00").getTime();
       const x = setInterval(() => {
         const now = new Date().getTime();
@@ -849,7 +855,7 @@
         );
       }, 1000);
 
-      // 6. Auto Highlight Navigasi & Klik tanpa merubah URL hash (#)
+      // Auto Highlight Navigasi & Klik tanpa merubah URL hash (#)
       const sections = document.querySelectorAll("section");
       const navLinks = document.querySelectorAll(".nav-link");
 
@@ -894,7 +900,7 @@
 
       sections.forEach((section) => observer.observe(section));
 
-      // 7. Validasi Slug & Ambil Nama Tamu saat Halaman Dibuka
+      // Validasi Slug & Ambil Nama Tamu saat Halaman Dibuka
       async function validateAndLoadData() {
         if (!currentSlug) {
           document.getElementById("guest-name-display").innerText = "Tamu Undangan";
@@ -966,7 +972,7 @@
         }
       }
 
-      // 9. Fungsi Kirim Ucapan & Doa via Fetch POST
+      // Fungsi Kirim Ucapan & Doa via Fetch POST
       async function submitUcapan() {
         const nama = document.getElementById("doa-name").value.trim();
         const ucapan = document.getElementById("doa-message").value.trim();
@@ -1019,7 +1025,7 @@
         }
       }
 
-      // 10. Ambil & Render 10 Ucapan Terbaru
+      // Ambil & Render 10 Ucapan Terbaru
       async function loadUcapanCards() {
         try {
           const response = await fetch(`${SCRIPT_URL}?action=get_ucapan`);
@@ -1128,25 +1134,18 @@
         return text.toString().replace(/[&<>"']/g, (m) => map[m]);
       }
 
-      // Logika Ubah Tampilan Jumlah Tamu Berdasarkan Status Kehadiran
       const rsvpStatusSelect = document.getElementById("rsvp-status");
       const wrapperJumlah = document.getElementById("wrapper-jumlah");
       const rsvpJumlahInput = document.getElementById("rsvp-jumlah");
 
       if (rsvpStatusSelect) {
         rsvpStatusSelect.addEventListener("change", () => {
-          if (
-            this.value === "Hadir" ||
-            this.value === "Hadir (Hadir)" ||
-            this.value === "1"
-          ) {
-            // Sesuaikan value dengan option "Hadir" di HTML kamu (misal: "Hadir" atau "1")
+          if (rsvpStatusSelect.value === "Hadir") {
             wrapperJumlah.style.display = "block";
-            rsvpJumlahInput.value = "1"; // Reset otomatis ke 1 saat memilih hadir
+            rsvpJumlahInput.value = "1"; 
           } else {
-            // Jika memilih Tidak Hadir / Ragu-ragu
             wrapperJumlah.style.display = "none";
-            rsvpJumlahInput.value = "0"; // Set value jadi 0 agar terekam 0 di spreadsheet
+            rsvpJumlahInput.value = "0"; 
           }
         });
       }
