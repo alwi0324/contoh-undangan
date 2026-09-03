@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Undangan Pernikahan - Kiki & Jaka</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%%3E%3Ctext y=%22.9em%22 font-size=%2290%%3E💍%22%3E%3C/text%3E%3C/svg%3E">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
@@ -104,6 +105,21 @@
         box-shadow:
           0 0 15px rgba(179, 139, 89, 0.8),
           inset 0 0 5px rgba(255, 255, 255, 0.5);
+      }
+
+      @keyframes slideDownFade {
+        0% {
+          opacity: 0;
+          transform: translateY(-15px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      .animate-new-message {
+        animation: slideDownFade 0.5s ease-out forwards;
       }
     </style>
   </head>
@@ -427,9 +443,17 @@
             <!-- Bagian Atas: Chip & Logo Bank -->
             <div class="flex justify-between items-center mb-6">
               <div
-                class="w-10 h-8 bg-gradient-to-tr from-amber-200 to-amber-400 rounded-md border border-amber-500/40 shadow-inner flex items-center justify-center"
+                class="w-12 h-9 bg-gradient-to-tr from-yellow-300 via-amber-200 to-yellow-400 rounded-md border border-amber-500/60 shadow-md relative overflow-hidden flex items-center justify-center p-1"
               >
-                <div class="w-full border-t border-amber-600/30"></div>
+                <!-- Garis-garis Sirkuit Chip -->
+                <div class="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-[1px] p-1 opacity-70">
+                  <div class="border-r border-b border-amber-700/40 rounded-tl-sm"></div>
+                  <div class="border-b border-amber-700/40 rounded-tr-sm"></div>
+                  <div class="border-r border-amber-700/40 rounded-bl-sm"></div>
+                  <div class="border-amber-700/40 rounded-br-sm"></div>
+                </div>
+                <!-- Titik Kontak Tengah Chip -->
+                <div class="w-4 h-3 bg-amber-500/30 rounded-xs border border-amber-600/40 z-10"></div>
               </div>
               <div class="h-10 flex items-center justify-end overflow-visible">
                 <img
@@ -1041,17 +1065,16 @@
         }
 
         let html = "";
-        list.forEach((item) => {
+        list.forEach((item, index) => {
           html += `
-      <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-left shadow-sm transition-all">
-        <div class="flex justify-between items-center mb-1">
-          <h4 class="font-bold text-sm text-theme-dark">${escapeHtml(item.nama)}</h4>
-          <!-- Tambahkan attribute data-timestamp di sini -->
-          <span class="text-[10px] text-gray-400 italic time-ago" data-timestamp="${item.timestamp}">${item.timeAgo}</span>
-        </div>
-        <p class="text-xs text-gray-700 leading-relaxed whitespace-pre-line">${escapeHtml(item.ucapan)}</p>
-      </div>
-    `;
+            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-left shadow-sm transition-all animate-new-message" style="animation-delay: ${index * 0.05}s;">
+              <div class="flex justify-between items-center mb-1">
+                <h4 class="font-bold text-sm text-theme-dark">${escapeHtml(item.nama)}</h4>
+                <span class="text-[10px] text-gray-400 italic time-ago" data-timestamp="${item.timestamp}">${item.timeAgo}</span>
+              </div>
+              <p class="text-xs text-gray-700 leading-relaxed whitespace-pre-line">${escapeHtml(item.ucapan)}</p>
+            </div>
+          `;
         });
         container.innerHTML = html;
       }
