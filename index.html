@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Undangan Pernikahan - Kiki & Jaka</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%%3E%3Ctext y=%22.9em%22 font-size=%2290%%3E💍%22%3E%3C/text%3E%3C/svg%3E">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%23d97706%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><circle cx=%229%22 cy=%2212%22 r=%226%22/><circle cx=%2215%22 cy=%2212%22 r=%226%22/></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
@@ -1025,6 +1025,14 @@
           const result = await response.json();
 
           if (result.status === "success") {
+            Swal.fire({
+              icon: "success",
+              title: "Terima kasih atas ucapan dan doanya 😊",
+              showConfirmButton: false,
+              timer: 1500,
+              background: "#f7f3ef",
+              color: "#3e2723",
+            });
             renderUcapanCards(result.ucapanList);
             document.getElementById("doa-message").value = "";
           } else {
@@ -1058,7 +1066,7 @@
         let html = "";
         list.forEach((item, index) => {
           html += `
-            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-left shadow-sm transition-all animate-new-message" style="animation-delay: ${index * 0.05}s;">
+            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-left shadow-sm transition-all animate-new-message" style="animation-delay: ${index * 0.3}s;">
               <div class="flex justify-between items-center mb-1">
                 <h4 class="font-bold text-sm text-theme-dark">${escapeHtml(item.nama)}</h4>
                 <span class="text-[10px] text-gray-400 italic time-ago" data-timestamp="${item.timestamp}">${item.timeAgo}</span>
