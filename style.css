@@ -1,0 +1,103 @@
+body {
+  font-family: "Lora", serif;
+  background-color: #e5e5f7;
+}
+.font-script {
+  font-family: "Great Vibes", cursive;
+}
+.bg-theme-light {
+  background-color: #f7f3ef;
+}
+.bg-theme-dark {
+  background-color: #3e2723;
+}
+.text-theme-dark {
+  color: #5c4a3d;
+}
+.text-theme-gold {
+  color: #b38b59;
+}
+
+.bg-floral {
+  background-image:
+    url("https://www.transparenttextures.com/patterns/aged-paper.png"),
+    linear-gradient(to bottom, #f7f3ef, #e3d5ca);
+  background-size: cover;
+  background-position: center;
+}
+
+/* Background Gambar Cover */
+.bg-cover-custom {
+  background-image: url("bg1.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+/* Background Gambar Event (Cincin) */
+.bg-cincin {
+  background-image: url("cincin2.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+/* Pattern Khusus untuk Countdown */
+.bg-pattern-dark {
+  background-color: #3e2723;
+  background-image: url("https://www.transparenttextures.com/patterns/stardust.png");
+}
+
+/* Background Gambar Pinggiran */
+.bg-pinggiran {
+  background-image: url("bg1-pinggiran.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+#bottom-nav {
+  transition:
+    transform 0.5s ease-in-out,
+    opacity 0.5s;
+  transform: translateY(100%);
+  opacity: 0;
+}
+#bottom-nav.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+::-webkit-scrollbar {
+  width: 0px;
+}
+@keyframes spin-slow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 4s linear infinite;
+}
+
+/* Efek cahaya berpendar (glow) warna emas */
+.music-glow {
+  box-shadow:
+    0 0 15px rgba(179, 139, 89, 0.8),
+    inset 0 0 5px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes slideDownFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-new-message {
+  animation: slideDownFade 0.5s ease-out forwards;
+}
