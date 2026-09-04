@@ -35,6 +35,7 @@ document.getElementById("doa-name").value = guestName;
 
 document.addEventListener("DOMContentLoaded", () => {
   AOS.init({ once: false, offset: 50 });
+  validateAndLoadData();
 });
 
 // Buka Undangan
@@ -46,12 +47,11 @@ function bukaUndangan() {
   document
     .getElementById("countdown-section")
     .scrollIntoView({ behavior: "smooth" });
-
-  validateAndLoadData();
+  
   loadUcapanCards();
 
   const randomInterval =
-    Math.floor(Math.random() * (60000 - 30000 + 1)) + 30000;
+    Math.floor(Math.random() * (40000 - 10000 + 1)) + 10000;
   setInterval(() => {
     if (typeof loadUcapanCards === "function") {
       loadUcapanCards();
@@ -359,8 +359,11 @@ function renderUcapanCards(list) {
 
   let html = "";
   list.forEach((item, index) => {
+    // Hanya item paling atas (index 0 / ucapan terbaru) yang diberi animasi meluncur dari atas
+    const animationClass = index === 0 ? "animate-new-message" : "";
+
     html += `
-            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-left shadow-sm transition-all animate-new-message" style="animation-delay: ${index * 0.5}s;">
+            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-left shadow-sm transition-all ${animationClass}">
               <div class="flex justify-between items-center mb-1">
                 <h4 class="font-bold text-sm text-theme-dark">${escapeHtml(item.nama)}</h4>
                 <span class="text-[10px] text-gray-400 italic time-ago" data-timestamp="${item.timestamp}">${item.timeAgo}</span>
