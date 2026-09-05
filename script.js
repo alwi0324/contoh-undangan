@@ -33,42 +33,105 @@ document.getElementById("guest-name-display").innerText = guestName;
 document.getElementById("rsvp-name").value = guestName;
 document.getElementById("doa-name").value = guestName;
 
+const chatContainerObserver = new IntersectionObserver(
+  (entries, observer) => {
+    entries.forEach((entry) => {
+      // Hanya pemicu jika elemen container chat sudah masuk layar
+      if (entry.isIntersecting) {
+        animateUcapanStaggered(); // <--- Tambahkan pemanggilan fungsi ini
+        observer.unobserve(entry.target); // Buka observasi agar animasi staggered cukup berjalan sekali
+      }
+    });
+  },
+  {
+    root: null,
+    rootMargin: "0px 0px -10% 0px", // Pemicu aktif ketika area chat sudah naik 10% dari bawah layar
+    threshold: 0.1,
+  },
+);
+
 document.addEventListener("DOMContentLoaded", () => {
   AOS.init({ once: false, offset: 50 });
   validateAndLoadData();
+
+  const container = document.getElementById("list-ucapan-container");
+  if (container) {
+    chatContainerObserver.observe(container);
+  }
 });
 
-// Buka Undangan
+// Fungsi Smooth Scroll Kustom untuk Kecepatan yang Lebih Nyaman
+function smoothScrollTo(targetEl, duration = 1200) {
+  const targetPosition =
+    targetEl.getBoundingClientRect().top + window.pageYOffset;
+  const startPosition = window.pageYOffset;
+  const distance = targetPosition - startPosition;
+  let startTime = null;
+
+  function animation(currentTime) {
+    if (startTime === null) startTime = currentTime;
+    const timeElapsed = currentTime - startTime;
+    const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+    window.scrollTo(0, run);
+    if (timeElapsed < duration) requestAnimationFrame(animation);
+  }
+
+  function easeInOutCubic(t, b, c, d) {
+    t /= d / 2;
+    if (t < 1) return (c / 2) * t * t * t + b;
+    t -= 2;
+    return (c / 2) * (t * t * t + 2) + b;
+  }
+
+  requestAnimationFrame(animation);
+}
+
+// Full bukaUndangan()
 function bukaUndangan() {
+  const overlay = document.getElementById("flower-bloom-overlay");
+
+  if (overlay) {
+    overlay.classList.remove("hidden");
+    setTimeout(() => overlay.classList.add("active"), 10);
+  }
+
   document.body.classList.remove("overflow-hidden");
   const nav = document.getElementById("bottom-nav");
-  nav.classList.remove("hidden");
-  setTimeout(() => nav.classList.add("show"), 10);
-  document
-    .getElementById("countdown-section")
-    .scrollIntoView({ behavior: "smooth" });
-  
+  if (nav) {
+    nav.classList.remove("hidden");
+    setTimeout(() => nav.classList.add("show"), 10);
+  }
+
   loadUcapanCards();
 
   const randomInterval =
     Math.floor(Math.random() * (40000 - 10000 + 1)) + 10000;
   setInterval(() => {
-    if (typeof loadUcapanCards === "function") {
-      loadUcapanCards();
-    }
+    if (typeof loadUcapanCards === "function") loadUcapanCards();
   }, randomInterval);
 
-  // Putar musik
-  music
-    .play()
-    .then(() => {
-      // Tampilkan tombol kontrol di kiri bawah setelah undangan dibuka
-      btnMusic.classList.remove("hidden");
-      updateMusicIcon(true);
-    })
-    .catch((error) => {
-      console.log("Autoplay dicegah browser:", error);
-    });
+  if (music) {
+    music
+      .play()
+      .then(() => {
+        if (btnMusic) btnMusic.classList.remove("hidden");
+        updateMusicIcon(true);
+      })
+      .catch((e) => console.log("Autoplay dicegah:", e));
+  }
+
+  // Scroll lebih lambat dan halus setelah animasi overlay mekar
+  setTimeout(() => {
+    const countdownSection = document.getElementById("countdown-section");
+    if (countdownSection) {
+      smoothScrollTo(countdownSection, 1200); // 1.2 detik durasi scroll
+    }
+
+    if (overlay) {
+      overlay.classList.remove("active");
+      setTimeout(() => overlay.classList.add("hidden"), 500);
+    }
+  }, 1600);
 }
 
 function toggleMusic() {
@@ -194,11 +257,13 @@ const observerOptions = {
   threshold: 0,
 };
 
+// Observer Section Utama (Untuk Navigasi & Bunga Sudut)
 const observer = new IntersectionObserver((entries) => {
   entries.forEach((entry) => {
     if (entry.isIntersecting) {
-      let id = entry.target.getAttribute("id");
+      entry.target.classList.add("is-visible");
 
+      let id = entry.target.getAttribute("id");
       if (id === "countdown-section" || id === "opening") {
         id = "cover";
       }
@@ -206,7 +271,6 @@ const observer = new IntersectionObserver((entries) => {
       navLinks.forEach((link) => {
         link.classList.remove("bg-gray-100", "text-theme-dark");
         link.classList.add("text-gray-400");
-
         if (link.getAttribute("data-target") === id) {
           link.classList.remove("text-gray-400");
           link.classList.add("bg-gray-100", "text-theme-dark");
@@ -348,6 +412,26 @@ async function loadUcapanCards() {
   }
 }
 
+// Variabel penanda agar animasi berurutan hanya berjalan sekali saat pertama kali di-scroll
+let hasAnimatedUcapan = false;
+let currentUcapanList = [];
+
+function animateUcapanStaggered() {
+  if (hasAnimatedUcapan) return;
+  hasAnimatedUcapan = true;
+
+  const container = document.getElementById("list-ucapan-container");
+  if (!container) return;
+
+  const cards = container.querySelectorAll(".ucapan-card");
+  cards.forEach((card, index) => {
+    setTimeout(() => {
+      card.classList.remove("chat-item-hidden");
+      card.classList.add("animate-chat-pop");
+    }, index * 400); // Muncul bergantian per 0.4 detik
+  });
+}
+
 function renderUcapanCards(list) {
   const container = document.getElementById("list-ucapan-container");
   if (!container) return;
@@ -357,22 +441,35 @@ function renderUcapanCards(list) {
     return;
   }
 
+  currentUcapanList = list;
   let html = "";
+
   list.forEach((item, index) => {
-    // Hanya item paling atas (index 0 / ucapan terbaru) yang diberi animasi meluncur dari atas
-    const animationClass = index === 0 ? "animate-new-message" : "";
+    // Jika belum pernah dianimasikan, sembunyikan semua elemen lebih dulu
+    const hiddenClass = !hasAnimatedUcapan ? "chat-item-hidden" : "";
 
     html += `
-            <div class="bg-gray-50 border border-gray-200 rounded-2xl p-4 text-left shadow-sm transition-all ${animationClass}">
-              <div class="flex justify-between items-center mb-1">
-                <h4 class="font-bold text-sm text-theme-dark">${escapeHtml(item.nama)}</h4>
-                <span class="text-[10px] text-gray-400 italic time-ago" data-timestamp="${item.timestamp}">${item.timeAgo}</span>
-              </div>
-              <p class="text-xs text-gray-700 leading-relaxed whitespace-pre-line">${escapeHtml(item.ucapan)}</p>
-            </div>
-          `;
+      <div class="ucapan-card bg-gray-50 border border-gray-200 rounded-2xl p-4 text-left shadow-sm transition-all mb-3 ${hiddenClass}" data-index="${index}">
+        <div class="flex justify-between items-center mb-1">
+          <h4 class="font-bold text-sm text-theme-dark">${escapeHtml(item.nama)}</h4>
+          <span class="text-[10px] text-gray-400 italic time-ago" data-timestamp="${item.timestamp}">${item.timeAgo}</span>
+        </div>
+        <p class="text-xs text-gray-700 leading-relaxed whitespace-pre-line">${escapeHtml(item.ucapan)}</p>
+      </div>
+    `;
   });
+
   container.innerHTML = html;
+
+  // Jika auto-polling mendapatkan pesan baru setelah animasi awal selesai,
+  // animasi hanya diterapkan pada pesan paling atas (index 0)
+  if (hasAnimatedUcapan) {
+    const firstCard = container.querySelector('.ucapan-card[data-index="0"]');
+    if (firstCard) {
+      firstCard.classList.remove("chat-item-hidden");
+      firstCard.classList.add("animate-chat-pop");
+    }
+  }
 }
 
 // Fungsi untuk memperbarui semua teks "waktu lalu" secara otomatis
@@ -431,7 +528,6 @@ function showErrorScreen(message) {
               <div class="text-amber-600 text-5xl mb-4">⚠️</div>
               <h2 class="text-xl font-bold text-gray-800 mb-2">Undangan Tidak Ditemukan</h2>
               <p class="text-xs text-gray-600 mb-6 leading-relaxed">${message}</p>
-              <a href="index.html" class="inline-block bg-[#3e2723] text-white text-xs uppercase tracking-widest px-6 py-3 rounded-full shadow">Kembali</a>
             </div>
           </div>
         `;
