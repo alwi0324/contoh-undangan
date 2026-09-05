@@ -5,15 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Undangan Pernikahan - Kiki & Jaka</title>
     <meta property="og:title" content="The Wedding of Kiki & Jaka" />
-    <meta property="og:description" content="Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir..." />
-    <meta property="og:image" content="https://alwi0324.github.io/contoh-undangan/ring.png" />
-    <meta property="og:url" content="https://alwi0324.github.io/contoh-undangan/ring.png" />
+    <meta
+      property="og:description"
+      content="Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir..."
+    />
+    <meta property="og:image" content="https://alwi0324.github.io/ring.png" />
+    <meta property="og:url" content="https://alwi0324.github.io/ring.png" />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="The Wedding of Kiki & Jaka" />
-    <meta name="twitter:description" content="Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir..." />
-    <meta name="twitter:image" content="https://alwi0324.github.io/contoh-undangan/ring.png" />
-    <link rel="icon" type="image/png" href="ring.png">
+    <meta
+      name="twitter:description"
+      content="Merupakan suatu kehormatan dan kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir..."
+    />
+    <meta name="twitter:image" content="/ring.png" />
+    <link rel="icon" type="image/png" href="/ring.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
@@ -25,9 +31,41 @@
       href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body class="overflow-hidden antialiased text-gray-800">
+    <div id="flower-bloom-overlay" class="hidden">
+      <div
+        id="sparkles-container"
+        class="absolute inset-0 pointer-events-none overflow-hidden"
+      >
+        <div class="sparkle s1"></div>
+        <div class="sparkle s2"></div>
+        <div class="sparkle s3"></div>
+        <div class="sparkle s4"></div>
+        <div class="sparkle s5"></div>
+        <div class="sparkle s6"></div>
+        <div class="sparkle s7"></div>
+        <div class="sparkle s8"></div>
+      </div>
+
+      <!-- Bunga Utama -->
+      <svg
+        class="flower-svg-rich center-flower"
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path d="M50 50 C30 10, 10 30, 50 50" fill="#b38b59" opacity="0.9" />
+        <path d="M50 50 C90 30, 70 10, 50 50" fill="#b38b59" opacity="0.9" />
+        <path d="M50 50 C70 90, 90 70, 50 50" fill="#b38b59" opacity="0.9" />
+        <path d="M50 50 C10 70, 30 90, 50 50" fill="#b38b59" opacity="0.9" />
+        <path d="M50 50 C15 35, 35 15, 50 50" fill="#d4af37" opacity="0.85" />
+        <path d="M50 50 C85 65, 65 85, 50 50" fill="#d4af37" opacity="0.85" />
+        <path d="M50 50 C65 15, 85 35, 50 50" fill="#d4af37" opacity="0.85" />
+        <path d="M50 50 C35 85, 15 65, 50 50" fill="#d4af37" opacity="0.85" />
+        <circle cx="50" cy="50" r="10" fill="#5c4a3d" />
+      </svg>
+    </div>
     <audio id="background-music">
       <source src="backsound.mp3" type="audio/mpeg" />
       Browser Anda tidak mendukung elemen audio.
@@ -211,7 +249,17 @@
         </section>
 
         <!-- COUPLE -->
-        <section id="couple" class="py-12 px-6 text-center bg-floral">
+        <section id="couple" class="relative py-12 px-6 text-center bg-floral">
+          <div class="floral-corner top-left">
+            <i
+              class="fa-solid fa-leaf text-5xl text-[#b38b59] drop-shadow-lg"
+            ></i>
+          </div>
+          <div class="floral-corner bottom-right">
+            <i
+              class="fa-solid fa-leaf text-5xl text-[#b38b59] drop-shadow-lg"
+            ></i>
+          </div>
           <div
             class="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-sm"
             data-aos="fade-up"
@@ -350,14 +398,20 @@
                 class="w-12 h-9 bg-gradient-to-tr from-yellow-300 via-amber-200 to-yellow-400 rounded-md border border-amber-500/60 shadow-md relative overflow-hidden flex items-center justify-center p-1"
               >
                 <!-- Garis-garis Sirkuit Chip -->
-                <div class="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-[1px] p-1 opacity-70">
-                  <div class="border-r border-b border-amber-700/40 rounded-tl-sm"></div>
+                <div
+                  class="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-[1px] p-1 opacity-70"
+                >
+                  <div
+                    class="border-r border-b border-amber-700/40 rounded-tl-sm"
+                  ></div>
                   <div class="border-b border-amber-700/40 rounded-tr-sm"></div>
                   <div class="border-r border-amber-700/40 rounded-bl-sm"></div>
                   <div class="border-amber-700/40 rounded-br-sm"></div>
                 </div>
                 <!-- Titik Kontak Tengah Chip -->
-                <div class="w-4 h-3 bg-amber-500/30 rounded-xs border border-amber-600/40 z-10"></div>
+                <div
+                  class="w-4 h-3 bg-amber-500/30 rounded-xs border border-amber-600/40 z-10"
+                ></div>
               </div>
               <div class="h-8 flex items-center justify-end overflow-visible">
                 <img
@@ -391,8 +445,16 @@
             <!-- Nama & Tombol Salin -->
             <div class="flex justify-between items-end">
               <div>
-                <p class="text-[10px] uppercase tracking-widest text-amber-200/70">Pemilik Rekening</p>
-                <p class="text-xs font-semibold uppercase tracking-wide text-white">Nurus Shubhiyyah Ismail</p>
+                <p
+                  class="text-[10px] uppercase tracking-widest text-amber-200/70"
+                >
+                  Pemilik Rekening
+                </p>
+                <p
+                  class="text-xs font-semibold uppercase tracking-wide text-white"
+                >
+                  Nurus Shubhiyyah Ismail
+                </p>
               </div>
 
               <button
@@ -405,41 +467,76 @@
             </div>
           </div>
 
-          <div data-aos="flip-left" data-aos-easing="ease-out-cubic" data-aos-duration="2000" class="relative overflow-hidden rounded-2xl p-6 text-slate-800 shadow-xl bg-gradient-to-br from-white via-emerald-50/50 to-teal-100/60 border border-emerald-500/20 transition-all duration-300 mt-5 aos-animate aos-init">
+          <div
+            data-aos="flip-left"
+            data-aos-easing="ease-out-cubic"
+            data-aos-duration="2000"
+            class="relative overflow-hidden rounded-2xl p-6 text-slate-800 shadow-xl bg-gradient-to-br from-white via-emerald-50/50 to-teal-100/60 border border-emerald-500/20 transition-all duration-300 mt-5 aos-animate aos-init"
+          >
             <!-- Bagian Atas: Chip & Logo BSI -->
             <div class="flex justify-between items-center mb-6">
               <!-- Chip ATM -->
-              <div class="w-12 h-9 bg-gradient-to-tr from-yellow-300 via-amber-200 to-yellow-400 rounded-md border border-amber-500/60 shadow-md relative overflow-hidden flex items-center justify-center p-1">
-                <div class="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-[1px] p-1 opacity-70">
-                  <div class="border-r border-b border-amber-700/40 rounded-tl-sm"></div>
+              <div
+                class="w-12 h-9 bg-gradient-to-tr from-yellow-300 via-amber-200 to-yellow-400 rounded-md border border-amber-500/60 shadow-md relative overflow-hidden flex items-center justify-center p-1"
+              >
+                <div
+                  class="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-[1px] p-1 opacity-70"
+                >
+                  <div
+                    class="border-r border-b border-amber-700/40 rounded-tl-sm"
+                  ></div>
                   <div class="border-b border-amber-700/40 rounded-tr-sm"></div>
                   <div class="border-r border-amber-700/40 rounded-bl-sm"></div>
                   <div class="border-amber-700/40 rounded-br-sm"></div>
                 </div>
-                <div class="w-4 h-3 bg-amber-500/30 rounded-xs border border-amber-600/40 z-10"></div>
+                <div
+                  class="w-4 h-3 bg-amber-500/30 rounded-xs border border-amber-600/40 z-10"
+                ></div>
               </div>
-              
+
               <div class="h-9 flex items-center justify-end">
-                <img src="logo-bsi.svg" alt="Logo BSI" class="h-24 w-auto object-contain">
+                <img
+                  src="logo-bsi.svg"
+                  alt="Logo BSI"
+                  class="h-24 w-auto object-contain"
+                />
               </div>
             </div>
-          
+
             <!-- Nomor Rekening -->
             <div class="mb-4">
-              <p class="text-[10px] uppercase tracking-widest text-emerald-800/60 mb-1 font-semibold">Nomor Rekening</p>
-              <p class="text-lg font-mono font-bold tracking-wider text-slate-900" id="norek-bsi">
+              <p
+                class="text-[10px] uppercase tracking-widest text-emerald-800/60 mb-1 font-semibold"
+              >
+                Nomor Rekening
+              </p>
+              <p
+                class="text-lg font-mono font-bold tracking-wider text-slate-900"
+                id="norek-bsi"
+              >
                 7341134808
               </p>
             </div>
-          
+
             <!-- Nama & Tombol Salin -->
             <div class="flex justify-between items-end">
               <div>
-                <p class="text-[10px] uppercase tracking-widest text-emerald-800/60 font-semibold">Pemilik Rekening</p>
-                <p class="text-xs font-bold uppercase tracking-wide text-slate-900">NURUS SHUBHIYYAH ISMAIL</p>
+                <p
+                  class="text-[10px] uppercase tracking-widest text-emerald-800/60 font-semibold"
+                >
+                  Pemilik Rekening
+                </p>
+                <p
+                  class="text-xs font-bold uppercase tracking-wide text-slate-900"
+                >
+                  NURUS SHUBHIYYAH ISMAIL
+                </p>
               </div>
-          
-              <button onclick="salinRekening('norek-bsi', this)" class="bg-emerald-700/10 hover:bg-emerald-700/20 text-emerald-900 text-xs px-4 py-2 rounded-xl backdrop-blur-sm border border-emerald-700/20 transition-all font-semibold flex items-center space-x-1.5 shadow-sm">
+
+              <button
+                onclick="salinRekening('norek-bsi', this)"
+                class="bg-emerald-700/10 hover:bg-emerald-700/20 text-emerald-900 text-xs px-4 py-2 rounded-xl backdrop-blur-sm border border-emerald-700/20 transition-all font-semibold flex items-center space-x-1.5 shadow-sm"
+              >
                 <i class="fa-regular fa-copy"></i>
                 <span>Salin</span>
               </button>
@@ -460,6 +557,16 @@
           ></div>
 
           <div class="relative z-10">
+            <div class="floral-corner top-right">
+              <i
+                class="fa-solid fa-seedling text-5xl text-[#d4af37] drop-shadow-lg"
+              ></i>
+            </div>
+            <div class="floral-corner bottom-left">
+              <i
+                class="fa-solid fa-seedling text-5xl text-[#d4af37] drop-shadow-lg"
+              ></i>
+            </div>
             <!-- RSVP FORM -->
             <div
               class="bg-white/85 backdrop-blur-md rounded-3xl p-6 shadow-lg mb-10 border border-gray-100"
