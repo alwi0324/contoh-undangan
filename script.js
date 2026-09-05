@@ -36,8 +36,11 @@ document.getElementById("doa-name").value = guestName;
 const chatContainerObserver = new IntersectionObserver(
   (entries, observer) => {
     entries.forEach((entry) => {
-      // Hanya pemicu jika elemen container chat sudah masuk layar
       if (entry.isIntersecting) {
+        const frameChat = document.getElementById("frame-chat");
+        if (frameChat) {
+          frameChat.classList.add("animate-bloom");
+        }
         animateUcapanStaggered(); // <--- Tambahkan pemanggilan fungsi ini
         observer.unobserve(entry.target); // Buka observasi agar animasi staggered cukup berjalan sekali
       }
@@ -119,6 +122,14 @@ function bukaUndangan() {
       })
       .catch((e) => console.log("Autoplay dicegah:", e));
   }
+
+  // Di dalam fungsi bukaUndangan()
+setTimeout(() => {
+  const frameOpening = document.getElementById("frame-opening");
+  if (frameOpening) {
+    frameOpening.classList.add("animate-bloom");
+  }
+}, 1200); // Dipemicu tepat saat scroll berpindah dari cover
 
   // Scroll lebih lambat dan halus setelah animasi overlay mekar
   setTimeout(() => {
