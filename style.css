@@ -18,6 +18,12 @@ body {
   color: #b38b59;
 }
 
+.font-atm {
+  font-family: 'JetBrains Mono', monospace;
+  letter-spacing: 0.15em; /* Efek renggang ala nomor kartu ATM */
+  font-weight: 700;
+}
+
 .bg-floral {
   background-image:
     url("https://www.transparenttextures.com/patterns/aged-paper.png"),
