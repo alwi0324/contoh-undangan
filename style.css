@@ -87,10 +87,22 @@ body {
     inset 0 0 5px rgba(255, 255, 255, 0.5);
 }
 
-@keyframes slideDownFade {
+/* ================= ANIMASI CHAT MENYEMBUL (AUTO-POLLING) ================= */
+/* Kelas dasar untuk item yang akan di-stagger */
+.chat-item-hidden {
+  opacity: 0;
+  transform: translateY(30px) scale(0.9);
+}
+
+/* Animasi menyembul per item */
+@keyframes chatPopUp {
   0% {
     opacity: 0;
-    transform: translateY(-25px) scale(0.96);
+    transform: translateY(30px) scale(0.85);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(-5px) scale(1.02);
   }
   100% {
     opacity: 1;
@@ -98,6 +110,204 @@ body {
   }
 }
 
-.animate-new-message {
-  animation: slideDownFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}}
+.animate-chat-pop {
+  animation: chatPopUp 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  will-change: transform, opacity;
+}
+
+/* ================= OVERLAY BUKA UNDANGAN ================= */
+#flower-bloom-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(247, 243, 239, 0.95);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+#flower-bloom-overlay.active {
+  opacity: 1;
+}
+
+/* Bunga Utama & Pendamping */
+.flower-svg-rich {
+  position: absolute;
+  transform: scale(0) rotate(-90deg);
+  opacity: 0;
+}
+.center-flower {
+  width: 350px;
+  height: 350px;
+  z-index: 2;
+}
+.side-flower {
+  width: 180px;
+  height: 180px;
+  z-index: 1;
+}
+.left-flower {
+  left: -10%;
+  top: 20%;
+}
+.right-flower {
+  right: -10%;
+  bottom: 20%;
+}
+
+#flower-bloom-overlay.active .center-flower {
+  animation: megaBloom 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+#flower-bloom-overlay.active .left-flower {
+  animation: sideBloom 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s forwards;
+}
+#flower-bloom-overlay.active .right-flower {
+  animation: sideBloom 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+}
+
+@keyframes megaBloom {
+  0% {
+    transform: scale(0.2) rotate(-45deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1) rotate(10deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+@keyframes sideBloom {
+  0% {
+    transform: scale(0) rotate(45deg);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+/* ================= EFEK SPARKLING PUTIH ================= */
+.sparkle {
+  position: absolute;
+  bottom: -30px;
+  width: 12px;
+  height: 12px;
+  background-color: #ffd700;
+  border-radius: 50%;
+  box-shadow:
+    0 0 18px 6px rgba(212, 175, 55, 0.9),
+    0 0 30px 10px rgba(255, 255, 255, 0.8);
+  opacity: 0;
+}
+
+#flower-bloom-overlay.active .sparkle {
+  animation: floatUpSparkle 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.s1 {
+  left: 10%;
+  animation-delay: 0.1s;
+  width: 14px;
+  height: 14px;
+}
+.s2 {
+  left: 28%;
+  animation-delay: 0.3s;
+  width: 18px;
+  height: 18px;
+}
+.s3 {
+  left: 45%;
+  animation-delay: 0.15s;
+  width: 12px;
+  height: 12px;
+}
+.s4 {
+  left: 62%;
+  animation-delay: 0.4s;
+  width: 20px;
+  height: 20px;
+}
+.s5 {
+  left: 78%;
+  animation-delay: 0.2s;
+  width: 15px;
+  height: 15px;
+}
+.s6 {
+  left: 90%;
+  animation-delay: 0.35s;
+  width: 12px;
+  height: 12px;
+}
+.s7 {
+  left: 20%;
+  animation-delay: 0.5s;
+  width: 10px;
+  height: 10px;
+}
+.s8 {
+  left: 70%;
+  animation-delay: 0.6s;
+  width: 16px;
+  height: 16px;
+}
+
+@keyframes floatUpSparkle {
+  0% {
+    transform: translateY(0) scale(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-30vh) scale(1.4);
+  }
+  100% {
+    transform: translateY(-105vh) scale(0.2);
+    opacity: 0;
+  }
+}
+
+/* ================= DEKORASI SUDUT (COUPLE & RSVP) ================= */
+.floral-corner {
+  position: absolute;
+  z-index: 20;
+  pointer-events: none;
+  transform: scale(0) rotate(-45deg);
+  opacity: 0;
+  transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.floral-corner.top-left {
+  top: 15px;
+  left: 15px;
+  transform-origin: top left;
+}
+.floral-corner.bottom-right {
+  bottom: 15px;
+  right: 15px;
+  transform-origin: bottom right;
+}
+.floral-corner.top-right {
+  top: 15px;
+  right: 15px;
+  transform-origin: top right;
+}
+.floral-corner.bottom-left {
+  bottom: 15px;
+  left: 15px;
+  transform-origin: bottom left;
+}
+
+/* Trigger Mekar saat section terlihat */
+section.is-visible .floral-corner {
+  transform: scale(1.2) rotate(0deg);
+  opacity: 1;
+}
