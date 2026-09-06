@@ -73,6 +73,65 @@ body {
 ::-webkit-scrollbar {
   width: 0px;
 }
+
+/* Container Penampung Animasi Burung */
+.birds-fly-wrapper {
+  z-index: 99; /* Maksimal agar berada di atas layer kartu/frame */
+}
+
+/* Base Style Karakter Burung */
+.bird {
+  position: absolute;
+  width: 35px;
+  height: 25px;
+  /* SVG siluet burung kepakan sayap */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 35'%3E%3Cpath fill='%3C%232c2523' d='M0 15 Q 12 0, 25 12 Q 38 0, 50 15 Q 35 10, 25 22 Q 15 10, 0 15 Z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+/* Variasi Jalur & Speed Terbang */
+.bird-1 {
+  animation: flyAcross 8s linear infinite;
+  animation-delay: 0s;
+}
+
+.bird-2 {
+  animation: flyAcross 10s linear infinite;
+  animation-delay: 2.5s;
+  transform: scale(0.7); /* Ukuran lebih kecil/jauh */
+}
+
+.bird-3 {
+  animation: flyAcross 7s linear infinite;
+  animation-delay: 5s;
+  transform: scale(0.85);
+}
+
+/* Keyframe Gerakan Terbang Miring Kiri bawah ke Kanan Atas */
+@keyframes flyAcross {
+  0% {
+    left: -10%;
+    top: 70%;
+    opacity: 0;
+    transform: scale(0.6) rotate(-5deg);
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    left: 110%;
+    top: 15%;
+    opacity: 0;
+    transform: scale(0.9) rotate(-15deg);
+  }
+}
+
 @keyframes spin-slow {
   from {
     transform: rotate(0deg);
