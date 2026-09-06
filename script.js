@@ -5,7 +5,7 @@ if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
 
-// Selalu kembalikan posisi scroll ke paling atas saat halaman dimuat ulang
+// Bersihkan session status jika tab/browser ditutup atau di-refresh total
 window.addEventListener('beforeunload', () => {
   window.scrollTo(0, 0);
 });
@@ -74,14 +74,22 @@ const chatContainerObserver = new IntersectionObserver(
 );
 
 document.addEventListener("DOMContentLoaded", () => {
-  window.scrollTo(0, 0); // Reset posisi scroll ke paling atas
+  // 1. Selalu paksa posisi scroll ke (0,0) / paling atas
+  window.scrollTo(0, 0);
 
-  // Cek apakah undangan sudah pernah dibuka di sesi ini
-  const isOpened = sessionStorage.getItem("undangan_dibuka");
-  if (isOpened) {
-    document.body.classList.remove("overflow-hidden");
-  } else {
-    document.body.classList.add("overflow-hidden");
+  // 2. Kunci scroll body agar tetap di cover
+  document.body.classList.add("overflow-hidden");
+
+  // 3. Sembunyikan Navigasi Bawah jika sempat muncul
+  const nav = document.getElementById("bottom-nav");
+  if (nav) {
+    nav.classList.add("hidden");
+    nav.classList.remove("show");
+  }
+
+  // 4. Sembunyikan Tombol Musik
+  if (btnMusic) {
+    btnMusic.classList.add("hidden");
   }
 
   AOS.init({ once: false, offset: 50 });
@@ -121,7 +129,6 @@ function smoothScrollTo(targetEl, duration = 1200) {
 
 // Full bukaUndangan()
 function bukaUndangan() {
-  sessionStorage.setItem("undangan_dibuka", "true");
   const overlay = document.getElementById("flower-bloom-overlay");
 
   if (overlay) {
