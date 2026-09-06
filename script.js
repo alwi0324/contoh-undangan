@@ -1,3 +1,23 @@
+// -------------------------------------------------------------
+// 1. MENCEGAH SCROLL STUCK SAAT REFRESH / MEMBUKA KEMBALI TAB
+// -------------------------------------------------------------
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
+// Selalu kembalikan posisi scroll ke paling atas saat halaman dimuat ulang
+window.addEventListener('beforeunload', () => {
+  window.scrollTo(0, 0);
+});
+
+// Menangani saat tab dimuat kembali dari bfcache HP
+window.addEventListener('pageshow', (event) => {
+  if (event.persisted) {
+    window.scrollTo(0, 0);
+    location.reload();
+  }
+});
+
 const music = document.getElementById("background-music");
 const btnMusic = document.getElementById("btn-music");
 const iconPlay = document.getElementById("icon-play");
@@ -54,6 +74,16 @@ const chatContainerObserver = new IntersectionObserver(
 );
 
 document.addEventListener("DOMContentLoaded", () => {
+  window.scrollTo(0, 0); // Reset posisi scroll ke paling atas
+
+  // Cek apakah undangan sudah pernah dibuka di sesi ini
+  const isOpened = sessionStorage.getItem("undangan_dibuka");
+  if (isOpened) {
+    document.body.classList.remove("overflow-hidden");
+  } else {
+    document.body.classList.add("overflow-hidden");
+  }
+
   AOS.init({ once: false, offset: 50 });
   validateAndLoadData();
 
@@ -91,6 +121,7 @@ function smoothScrollTo(targetEl, duration = 1200) {
 
 // Full bukaUndangan()
 function bukaUndangan() {
+  sessionStorage.setItem("undangan_dibuka", "true");
   const overlay = document.getElementById("flower-bloom-overlay");
 
   if (overlay) {
